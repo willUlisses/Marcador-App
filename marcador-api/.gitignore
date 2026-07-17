@@ -34,4 +34,4 @@ build/
 
 .env
 .env*
-/src/main/resources/db/migration/
+
