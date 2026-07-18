@@ -6,9 +6,8 @@ import br.com.will.marcador_api.dtos.response.BookResponse;
 import br.com.will.marcador_api.entities.Book;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.entities.enums.ReadingStatus;
-import br.com.will.marcador_api.exception.BookNotFoundException;
+import br.com.will.marcador_api.exception.NotFoundException;
 import br.com.will.marcador_api.exception.UnauthorizedException;
-import br.com.will.marcador_api.exception.UserNotFoundException;
 import br.com.will.marcador_api.repository.BookRepository;
 import br.com.will.marcador_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ public class BookService {
     @Transactional
     public BookResponse createBook(CreateBookBody body, User user) {
         User userLogged = userRepository.findById(user.getId())
-                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
 
         Book book = new Book();
         book.setTitle(body.title());
@@ -50,10 +49,10 @@ public class BookService {
     @Transactional
     public BookResponse patchBook(PatchBookBody body, Long bookId, User user) {
         User userLogged = userRepository.findById(user.getId())
-                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException("Book Not Found"));
+                .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
         if (!book.getUser().getId().equals(userLogged.getId())) {
             throw new UnauthorizedException("This book does not belong to this user");
@@ -76,10 +75,10 @@ public class BookService {
     @Transactional
     public void deleteBook(Long bookId, User user) {
         User userLogged = userRepository.findById(user.getId())
-                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
 
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new BookNotFoundException("Book Not Found"));
+                .orElseThrow(() -> new NotFoundException("Book Not Found"));
 
         if (!book.getUser().getId().equals(userLogged.getId())) {
             throw new UnauthorizedException("This book does not belong to this user");
