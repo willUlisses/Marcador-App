@@ -42,9 +42,6 @@ public class BookService {
     }
 
     public List<BookResponse> findAllBooks(User user) {
-        User userLogged = userRepository.findById(user.getId())
-                .orElseThrow(() -> new UserNotFoundException("User Not Found"));
-
         List<Book> books = bookRepository.findAllByUserIdWithGenres(user.getId());
 
         return books.stream().map(BookResponse::from).toList();
