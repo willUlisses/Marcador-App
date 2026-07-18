@@ -26,6 +26,7 @@ import lombok.Setter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -57,7 +58,7 @@ public class Book {
     private Set<Genre> genres = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
-    private ReadingStatus status = ReadingStatus.WANT_TO_READ;
+    private ReadingStatus status;
 
     @Column(nullable = false)
     private Integer currentPage;
