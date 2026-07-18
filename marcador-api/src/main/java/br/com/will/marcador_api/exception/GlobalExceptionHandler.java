@@ -9,18 +9,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleUserNotFoundException(Exception e) {
-        ExceptionResponse response = ExceptionResponse.builder()
-                .message(e.getMessage())
-                .statusCode(HttpStatus.NOT_FOUND.value())
-                .build();
-
-        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler(BookNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> handleBookNotFoundException(Exception e) {
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ExceptionResponse> handleNotFoundException(Exception e) {
         ExceptionResponse response = ExceptionResponse.builder()
                 .message(e.getMessage())
                 .statusCode(HttpStatus.NOT_FOUND.value())
@@ -38,5 +28,17 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ExceptionResponse> handleBadRequestException(Exception e) {
+        ExceptionResponse response = ExceptionResponse.builder()
+                .message(e.getMessage())
+                .statusCode(HttpStatus.BAD_REQUEST.value())
+                .build();
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }
