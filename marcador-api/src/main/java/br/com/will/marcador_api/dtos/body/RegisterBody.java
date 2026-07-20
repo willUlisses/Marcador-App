@@ -3,11 +3,11 @@ package br.com.will.marcador_api.dtos.body;
 import jakarta.validation.constraints.NotBlank;
 
 public record RegisterBody(
-        @NotBlank(message = "Você deve informar seu email.")
+        @NotBlank(message = "You must inform your email.")
         String email,
-        @NotBlank(message = "Você deve informar um nome de usuário.")
+        @NotBlank(message = "You must insert a username")
         String username,
-        @NotBlank(message = "Você deve informar a senha para se registrar.")
+        @NotBlank(message = "You must create a password for your account.")
         String password
 ) {
 }

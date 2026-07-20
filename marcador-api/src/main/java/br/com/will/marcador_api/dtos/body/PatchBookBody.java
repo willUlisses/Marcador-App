@@ -12,16 +12,16 @@ import java.util.Set;
 public record PatchBookBody(
         String title,
 
-        @Min(value = 1, message = "A nota deve ser maior ou igual a 1.")
-        @Max(value = 5, message = "A nota deve ser menor ou igual a 5.")
+        @Min(value = 1, message = "The rating must be greater than or equal 1.")
+        @Max(value = 5, message = "The rating must be less than or equal 5.")
         Integer rating,
 
         Set<Genre> genres,
 
-        @Positive(message = "O total de páginas deve ser maior que 0")
+        @Positive(message = "The total of pages must be more than 0")
         Integer totalPages,
 
-        @Min(value = 0, message = "A página atual deve ser positiva.")
+        @Min(value = 0, message = "The current page must be positive.")
         Integer currentPage,
 
         ReadingStatus status,

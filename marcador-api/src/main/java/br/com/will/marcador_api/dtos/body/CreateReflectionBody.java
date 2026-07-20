@@ -3,7 +3,7 @@ package br.com.will.marcador_api.dtos.body;
 import jakarta.validation.constraints.NotBlank;
 
 public record CreateReflectionBody(
-        @NotBlank(message = "Você deve inserir um titulo para criar a reflexão.")
+        @NotBlank(message = "You must insert a title.")
         String title,
         String description
 ) {

@@ -9,14 +9,14 @@ import jakarta.validation.constraints.Positive;
 import java.util.Set;
 
 public record CreateBookBody(
-        @NotBlank(message = "O título é obrigatório.")
+        @NotBlank(message = "The title is mandatory")
         String title,
 
-        @NotEmpty(message = "Selecione pelo menos um gênero.")
+        @NotEmpty(message = "Select at least one genre")
         Set<Genre> genres,
 
-        @NotNull(message = "O total de páginas é obrigatório")
-        @Positive(message = "O total de páginas deve ser maior que 0")
+        @NotNull(message = "the total of pages is mandatory")
+        @Positive(message = "The total of pages must be more than 0")
         Integer totalPages
 ) {
 }
