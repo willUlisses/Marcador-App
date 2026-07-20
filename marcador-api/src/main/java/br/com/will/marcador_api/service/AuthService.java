@@ -3,7 +3,7 @@ package br.com.will.marcador_api.service;
 import br.com.will.marcador_api.dtos.body.LoginBody;
 import br.com.will.marcador_api.dtos.body.RegisterBody;
 import br.com.will.marcador_api.dtos.response.AuthResponse;
-import br.com.will.marcador_api.dtos.response.UserLoggedResponse;
+import br.com.will.marcador_api.dtos.response.UserResponse;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.entities.enums.Roles;
 import br.com.will.marcador_api.exception.BadRequestException;
@@ -55,8 +55,8 @@ public class AuthService {
         return AuthResponse.from(userLogging, token);
     }
 
-    public UserLoggedResponse getUserLoggedData(User user) {
-        return UserLoggedResponse.from(user);
+    public UserResponse getUserLoggedData(User user) {
+        return UserResponse.from(user);
     }
 
 }
