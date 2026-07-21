@@ -5,6 +5,7 @@ import br.com.will.marcador_api.dtos.body.PatchUserBody;
 import br.com.will.marcador_api.dtos.response.UserResponse;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +34,7 @@ public class UserController {
     //TODO: PATCH changePassword(User user, ChangePasswordBody body)
     @PatchMapping("/change-password")
     public ResponseEntity<Void> changePassword(@AuthenticationPrincipal User user,
-                                               @RequestBody ChangePasswordBody body) {
+                                               @RequestBody @Valid ChangePasswordBody body) {
         userService.changePassword(user, body);
         return new ResponseEntity<>(HttpStatus.OK);
     }
