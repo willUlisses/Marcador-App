@@ -24,14 +24,12 @@ public class UserController {
 
     private final UserService userService;
 
-    //TODO: PATCH updateUser(User user, PatchUserBody body)
     @PatchMapping("/update")
     public ResponseEntity<UserResponse> updateUser(@AuthenticationPrincipal User user,
                                                    @RequestBody PatchUserBody body) {
         return new ResponseEntity<>(userService.updateUser(user, body), HttpStatus.OK);
     }
 
-    //TODO: PATCH changePassword(User user, ChangePasswordBody body)
     @PatchMapping("/change-password")
     public ResponseEntity<Void> changePassword(@AuthenticationPrincipal User user,
                                                @RequestBody @Valid ChangePasswordBody body) {
@@ -39,7 +37,6 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    //TODO: DELETE deleteUserById(@PathVariable Long userId)
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable("id") Long id) {
         userService.deleteUserById(id);
