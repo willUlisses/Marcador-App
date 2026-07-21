@@ -9,3 +9,14 @@ services:
     ports:
       - "${DB_PORT}:5432"
     restart: always
+
+  mailpit:
+    image: axllent/mailpit:edge
+    container_name: marcador-mailpit
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_DATABASE: ""
+    ports:
+      - "${MAILSENDER_PORT}:1025"
+      - "${MAIL_INTERFACE_PORT}:8025"
+    restart: unless-stopped
