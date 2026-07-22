@@ -29,7 +29,6 @@ public class ReflectionController {
 
     private final ReflectionService reflectionService;
 
-    //TODO: POST createReflection(User user, Long bookId, CreateReflectionBody body)
     @PostMapping("/{id}")
     public ResponseEntity<BookWithReflectionsResponse> createReflection(
             @AuthenticationPrincipal User user,
@@ -39,7 +38,6 @@ public class ReflectionController {
         return new ResponseEntity<>(reflectionService.createReflection(user, id, body), HttpStatus.CREATED);
     }
 
-    //TODO: PATCH patchReflection(User user, Long bookId, Long reflectionId, PatchReflectionBody body)
     @PatchMapping("/{bookId}/{reflectionId}")
     public ResponseEntity<BookWithReflectionsResponse> patchReflection(
             @AuthenticationPrincipal User user,
@@ -53,7 +51,7 @@ public class ReflectionController {
                 reflectionId,
                 body), HttpStatus.OK);
     }
-    //TODO: GET getBookReflections(User user, Long bookId)
+
     @GetMapping("/{id}")
     public ResponseEntity<List<ReflectionResponse>> getBookReflections(
             @AuthenticationPrincipal User user,
@@ -62,7 +60,6 @@ public class ReflectionController {
         return new ResponseEntity<>(reflectionService.getBookReflections(user, id), HttpStatus.OK);
     }
 
-    //TODO: DELETE deleteReflection(User user, Long bookId, Long reflectionId)
     @DeleteMapping("/{bookId}/{reflectionId}")
     public ResponseEntity<Void> deleteReflection(
             @AuthenticationPrincipal User user,
