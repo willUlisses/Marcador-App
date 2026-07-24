@@ -27,7 +27,7 @@ public class EmailService {
                 <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
                     <h2 style="color: #4F46E5;">Recuperação de Senha</h2>
                     <p>Você solicitou a redefinição de senha para a sua conta.</p>
-                    <p>Clique no botão abaixo para cadastrar uma nova senha (este link expira em <strong>15 minutos</strong>):</p>
+                    <p>Clique no botão abaixo para cadastrar uma nova senha (este link expira em <strong>10 minutos</strong>):</p>
                     <div style="margin: 24px 0;">
                         <a href="%s" style="background-color: #4F46E5; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block; font-weight: bold;">Redefinir Senha</a>
                     </div>

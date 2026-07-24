@@ -5,6 +5,7 @@ import br.com.will.marcador_api.dtos.body.PatchUserBody;
 import br.com.will.marcador_api.dtos.response.UserResponse;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.exception.BadRequestException;
+import br.com.will.marcador_api.exception.NotFoundException;
 import br.com.will.marcador_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -55,7 +56,7 @@ public class UserService {
     public void deleteUserById(Long userId) {
         if (userRepository.findById(userId).isPresent()) {
             userRepository.deleteById(userId);
-        } else throw new BadRequestException("User not found.");
+        } else throw new NotFoundException("User not found.");
     }
 
 
