@@ -208,7 +208,7 @@ public class BookServiceTest {
 
         @Test
         @DisplayName("Should update only providede fields and keep original values for null fields")
-        void patchBook_PartielUpdate_Success() {
+        void patchBook_PartialUpdate_Success() {
             User mockUser = new User();
             mockUser.setId(1L);
 
@@ -233,6 +233,68 @@ public class BookServiceTest {
 
             Mockito.verify(bookRepository, Mockito.times(1)).save(mockBook);
         }
+    }
+
+    @Nested
+    @DisplayName("Delete Book Method Tests")
+    class DeleteBookTests {
+
+        @Test
+        @DisplayName("Should delete the book successfully")
+        void deleteBook_Success() {
+            User mockUser = new User();
+            mockUser.setId(1L);
+
+            Book mockBook = new Book();
+            mockBook.setId(1L);
+            mockBook.setUser(mockUser);
+
+            Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+            Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(mockBook));
+
+            bookService.deleteBook(1L,  mockUser);
+
+            Mockito.verify(userRepository, Mockito.times(1)).findById(1L);
+            Mockito.verify(bookRepository, Mockito.times(1)).findById(1L);
+
+            Mockito.verify(bookRepository, Mockito.times(1)).delete(mockBook);
+        }
+
+        @Test
+        @DisplayName("Should throw UnauthorizedException when try to delete a book from other person")
+        void deleteBook_Unauthorized() {
+            User mockUser = new User();
+            mockUser.setId(1L);
+
+            User anotherUser = new User();
+            anotherUser.setId(2L);
+
+            Book mockBook = new Book();
+            mockBook.setId(1L);
+            mockBook.setUser(mockUser);
+
+            Mockito.when(userRepository.findById(2L)).thenReturn(Optional.of(anotherUser));
+            Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(mockBook));
+
+            assertThrows(UnauthorizedException.class, () -> bookService.deleteBook(1L,  anotherUser));
+
+            Mockito.verify(bookRepository, Mockito.never()).delete(Mockito.any());
+        }
+
+        @Test
+        @DisplayName("Should throw NotFoundException when the book does not exists")
+        void deleteBook_BookNotFound() {
+            User mockUser = new User();
+            mockUser.setId(1L);
+
+            Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+            Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.empty());
+
+            assertThrows(NotFoundException.class, () -> bookService.deleteBook(1L,  mockUser));
+
+            Mockito.verify(bookRepository, Mockito.never()).delete(Mockito.any());
+        }
+
 
     }
 
