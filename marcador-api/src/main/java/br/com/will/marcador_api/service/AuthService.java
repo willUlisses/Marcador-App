@@ -37,6 +37,8 @@ public class AuthService {
     public User register(RegisterBody body) {
         if (userRepository.existsByUsername(body.username())) throw new BadRequestException("This user already exists.");
 
+        if (userRepository.existsByEmail(body.email())) throw new BadRequestException("This email is already used.");
+
         String senhaHash = new BCryptPasswordEncoder().encode(body.password());
 
         User user = User.builder()
