@@ -10,6 +10,7 @@ import br.com.will.marcador_api.entities.PasswordResetToken;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.entities.enums.Roles;
 import br.com.will.marcador_api.exception.BadRequestException;
+import br.com.will.marcador_api.exception.NotFoundException;
 import br.com.will.marcador_api.repository.PasswordResetTokenRepository;
 import br.com.will.marcador_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -54,7 +55,7 @@ public class AuthService {
 
     public AuthResponse login(LoginBody body) {
         User userLogging = userRepository.findByUsername(body.username())
-                .orElseThrow(() -> new BadRequestException("Invalid username or password."));
+                .orElseThrow(() -> new NotFoundException("Invalid username or password."));
 
         var usernamePasswordToken = new UsernamePasswordAuthenticationToken(
                 body.username(),
