@@ -73,12 +73,12 @@ public class TokenServiceTest {
         @DisplayName("Must successfully extract subject from a valid token")
         void extractSubject_Success() {
             User mockUser = new User();
-            mockUser.setId(42L);
+            mockUser.setId(1L);
             String token = tokenService.generateToken(mockUser);
 
             String subject = tokenService.extractSubject(token);
 
-            assertEquals("42", subject);
+            assertEquals("1", subject);
         }
 
         @Test
