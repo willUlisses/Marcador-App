@@ -3,6 +3,7 @@ package br.com.will.marcador_api.service;
 import br.com.will.marcador_api.dtos.body.ForgotPasswordBody;
 import br.com.will.marcador_api.dtos.body.LoginBody;
 import br.com.will.marcador_api.dtos.body.RegisterBody;
+import br.com.will.marcador_api.dtos.body.ResetPasswordBody;
 import br.com.will.marcador_api.dtos.response.AuthResponse;
 import br.com.will.marcador_api.entities.PasswordResetToken;
 import br.com.will.marcador_api.entities.User;
@@ -123,7 +124,7 @@ public class AuthServiceTests {
 
             Mockito.when(userRepository.findByUsername("bodyUsername")).thenReturn(Optional.of(mockUser));
             Mockito.when(authenticationManager.authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class))).thenReturn(mockAuthentication);
-            Mockito.when(tokenService.gerarToken(mockUser)).thenReturn("jwt-token-123");
+            Mockito.when(tokenService.generateToken(mockUser)).thenReturn("jwt-token-123");
 
             AuthResponse response = authService.login(body);
 
@@ -133,7 +134,7 @@ public class AuthServiceTests {
             Mockito.verify(authenticationManager, Mockito.times(1))
                     .authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
 
-            Mockito.verify(tokenService, Mockito.times(1)).gerarToken(mockUser);
+            Mockito.verify(tokenService, Mockito.times(1)).generateToken(mockUser);
         }
 
         @Test
@@ -144,14 +145,14 @@ public class AuthServiceTests {
             Mockito.when(userRepository.findByUsername("bodyUsername")).thenReturn(Optional.empty());
 
             Assertions.assertThrows(NotFoundException.class, () -> authService.login(body));
-            Mockito.verify(tokenService, Mockito.never()).gerarToken(Mockito.any(User.class));
+            Mockito.verify(tokenService, Mockito.never()).generateToken(Mockito.any(User.class));
             Mockito.verify(authenticationManager, Mockito.never()).authenticate(Mockito.any(UsernamePasswordAuthenticationToken.class));
         }
     }
 
     @Nested
     @DisplayName("Forgot Password method tests")
-    class LoginTestsWithoutPassword {
+    class ForgotPasswordTests {
 
         @Test
         @DisplayName("Must delete old tokens, create new reset token and send the reset email successfully")
@@ -194,7 +195,62 @@ public class AuthServiceTests {
                             Mockito.anyString()
                     );
         }
+    }
 
+    @Nested
+    @DisplayName("Reset Password Tests")
+    class ResetPasswordTests {
+
+        @Test
+        @DisplayName("Must reset the account password successfully")
+        void resetPassword_Success() {
+            ResetPasswordBody body = new ResetPasswordBody("reset-token-test-123", "newPasswordTest");
+            User mockUser = User.builder()
+                    .id(1L)
+                    .email("test@email.com")
+                    .username("testUser")
+                    .role(Roles.ROLE_USER)
+                    .build();
+
+            PasswordResetToken mockToken = Mockito.mock(PasswordResetToken.class);
+            Mockito.when(mockToken.isExpired()).thenReturn(false);
+            Mockito.when(mockToken.getUser()).thenReturn(mockUser);
+
+            Mockito.when(tokenRepository.findByToken("reset-token-test-123")).thenReturn(Optional.of(mockToken));
+
+            authService.resetPassword(body);
+
+            Mockito.verify(userRepository, Mockito.times(1)).save(mockUser);
+            Mockito.verify(tokenRepository, Mockito.times(1)).delete(mockToken);
+        }
+
+        @Test
+        @DisplayName("Should throw NotFoundException if the reset token doesn't exists")
+        void resetPassword_TokenNotFound() {
+            ResetPasswordBody body = new ResetPasswordBody("reset-token-test-123", "newPassword");
+
+            Mockito.when(tokenRepository.findByToken("reset-token-test-123")).thenReturn(Optional.empty());
+
+            Assertions.assertThrows(NotFoundException.class, () -> authService.resetPassword(body));
+            Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
+        }
+
+        @Test
+        @DisplayName("Should Throw BadRequestException and delete token when token is expired")
+        void resetPassword_ExpiredToken() {
+            ResetPasswordBody body = new ResetPasswordBody("reset-token-test-123", "newPassword");
+            PasswordResetToken mockToken = Mockito.mock(PasswordResetToken.class);
+
+            Mockito.when(mockToken.isExpired()).thenReturn(true);
+
+            Mockito.when(tokenRepository.findByToken("reset-token-test-123")).thenReturn(Optional.of(mockToken));
+
+            BadRequestException exception = Assertions.assertThrows(BadRequestException.class, () -> authService.resetPassword(body));
+
+            Assertions.assertEquals("Token has expired.", exception.getMessage());
+            Mockito.verify(tokenRepository, Mockito.times(1)).delete(mockToken);
+            Mockito.verify(userRepository, Mockito.never()).save(Mockito.any());
+        }
     }
 
 }

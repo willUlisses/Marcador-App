@@ -62,7 +62,7 @@ public class AuthService {
                 body.password()
         );
         Authentication auth = this.authenticationManager.authenticate(usernamePasswordToken);
-        String token = tokenService.gerarToken(userLogging);
+        String token = tokenService.generateToken(userLogging);
 
         return AuthResponse.from(userLogging, token);
     }
@@ -95,7 +95,7 @@ public class AuthService {
     @Transactional
     public void resetPassword(ResetPasswordBody body) {
         PasswordResetToken resetToken = tokenRepository.findByToken(body.token())
-                .orElseThrow(() -> new BadRequestException("Invalid or expired token."));
+                .orElseThrow(() -> new NotFoundException("Invalid or expired token."));
 
         if (resetToken.isExpired()) {
             tokenRepository.delete(resetToken);

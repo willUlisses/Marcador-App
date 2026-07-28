@@ -21,7 +21,7 @@ public class TokenService {
     @Value("${marcador.jwt.secret.key}")
     private String secretKey;
 
-    public String gerarToken(User user) {
+    public String generateToken(User user) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
 
@@ -38,7 +38,7 @@ public class TokenService {
         }
     }
 
-    public String extrairSubject(String token) {
+    public String extractSubject(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
 

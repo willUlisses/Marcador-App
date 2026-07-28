@@ -32,7 +32,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> register(@RequestBody @Valid RegisterBody body) {
         User user = authService.register(body);
 
-        String token = tokenService.gerarToken(user);
+        String token = tokenService.generateToken(user);
 
         return new ResponseEntity<>(AuthResponse.from(user, token), HttpStatus.CREATED);
     }
