@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/books")
+@RequestMapping("marcador/books")
 @RequiredArgsConstructor
 public class BookController {
 
