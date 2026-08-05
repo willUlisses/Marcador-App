@@ -1,7 +1,7 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
-import { api } from "../services/api";
 import type { User } from "../types/user";
 import type { AuthResponse } from "../types/auth"
+import { authService } from "../services/authService";
 
 interface AuthContextData {
     user: User | null;
@@ -24,7 +24,7 @@ export function AuthProvider({children} : {children : ReactNode}) {
             return
         }
 
-        api.get<User>("/auth/me").then(response => { setUser(response) }) 
+        authService.me().then(response => { setUser(response) }) 
         .catch(() => {
             localStorage.removeItem("marcador.token");
             setUser(null);
