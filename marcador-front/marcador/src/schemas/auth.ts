@@ -2,7 +2,10 @@ import type { User } from "./user";
 
 export interface AuthResponse {
     token: string;
-    user: User;
+    id: number;
+    username: string;
+    email: string;
+    role: string;
 }
 
 export interface RegisterBody {

@@ -35,10 +35,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const login = (data: AuthResponse) => {
         localStorage.setItem("marcador.token", data.token);
         setUser({
-            id: data.user.id,
-            username: data.user.username,
-            email: data.user.email,
-            role: data.user.role
+            id: data.id,
+            username: data.username,
+            email: data.email,
+            role: data.role
         });
     }
 
