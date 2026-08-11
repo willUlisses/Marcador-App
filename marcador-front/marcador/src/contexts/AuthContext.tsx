@@ -1,6 +1,6 @@
 import { createContext, type ReactNode, useContext, useEffect, useState } from "react";
-import type { User } from "../types/user";
-import type { AuthResponse } from "../types/auth"
+import type { User } from "../schemas/user";
+import type { AuthResponse } from "../schemas/auth"
 import { authService } from "../services/authService";
 
 interface AuthContextData {
@@ -12,27 +12,27 @@ interface AuthContextData {
 
 export const AuthContext = createContext<AuthContextData>({} as AuthContextData)
 
-export function AuthProvider({children} : {children : ReactNode}) {
+export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         const token = localStorage.getItem("marcador.token")
 
-        if (!token) { 
+        if (!token) {
             setIsLoading(false);
             return
         }
 
-        authService.me().then(response => { setUser(response) }) 
-        .catch(() => {
-            localStorage.removeItem("marcador.token");
-            setUser(null);
-        })
-        .finally(() => setIsLoading(false))
+        authService.me().then(response => { setUser(response) })
+            .catch(() => {
+                localStorage.removeItem("marcador.token");
+                setUser(null);
+            })
+            .finally(() => setIsLoading(false))
     }, [])
 
-    const login = (data : AuthResponse) => {
+    const login = (data: AuthResponse) => {
         localStorage.setItem("marcador.token", data.token);
         setUser({
             id: data.user.id,
@@ -48,12 +48,12 @@ export function AuthProvider({children} : {children : ReactNode}) {
     }
 
     return (
-        <AuthContext.Provider value={{user, isLoading, login, logout}}>
+        <AuthContext.Provider value={{ user, isLoading, login, logout }}>
             {children}
         </AuthContext.Provider>
     )
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+    return useContext(AuthContext);
 }

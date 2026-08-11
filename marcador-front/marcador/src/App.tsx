@@ -1,10 +1,10 @@
-import ShelfPage from './Pages/ShelfPage'
+import  LoginPage  from './Pages/LoginPage'
 
 function App() {
   return (
-    <>
-      <ShelfPage />
-    </>
+    <div className='flex flex-col w-screen h-dvh bg-amber-100'>
+      <LoginPage />
+    </div>
   )
 }
 
