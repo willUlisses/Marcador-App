@@ -1,4 +1,4 @@
-import { forwardRef, type ComponentPropsWithRef, type ReactNode } from "react";
+import { type ComponentPropsWithRef, type ReactNode } from "react";
 
 interface InputProps extends ComponentPropsWithRef<"input"> {
   label?: string;
@@ -8,9 +8,7 @@ interface InputProps extends ComponentPropsWithRef<"input"> {
   containerClassName?: string;
 }
 
-const Input = forwardRef<HTMLInputElement, InputProps>(
-  (
-    {
+const Input = ({
       label,
       error,
       leftIcon,
@@ -18,10 +16,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       containerClassName = "",
       className = "",
       id,
+      ref,
       ...props
-    },
-    ref
-  ) => {
+    }: InputProps) => {
     const inputId = id || props.name;
 
     return (
@@ -44,7 +41,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
             id={inputId}
             aria-invalid={!!error}
             className={`
-              w-full bg-white border border-stone-300 rounded-xl py-4 text-md text-stone-800 
+              w-full bg-white border border-stone-300 rounded-xl py-2.5 text-md text-stone-800 
               placeholder:text-stone-400 outline-none transition-all shadow-xs
               focus:border-amber-800 focus:ring-1 focus:ring-amber-800
               ${leftIcon ? "pl-10" : "px-3"}
@@ -70,7 +67,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       </div>
     );
   }
-);
+;
 
 Input.displayName = "Input";
 
