@@ -1,4 +1,4 @@
-const apiUrl = import.meta.env.API_URL;
+const apiUrl = import.meta.env.VITE_API_URL;
     
 interface CustomOptions extends RequestInit {
     auth?: boolean;
@@ -20,6 +20,8 @@ export async function http<T>(endpoint: string, { method, body, auth = true, ...
     }
 
     const response = await fetch(`${apiUrl}${endpoint}`, {
+        method,
+        body,
         ...config,
         headers,
     });

@@ -1,5 +1,5 @@
 import { api } from "./api";
-import type { BookResponse, CreateBookBody, PatchBookBody } from "../types/book";
+import type { BookResponse, CreateBookBody, PatchBookBody } from "../schemas/book";
 
 export const bookService = {
     create: (body: CreateBookBody) => api.post<BookResponse>("/books", body),
