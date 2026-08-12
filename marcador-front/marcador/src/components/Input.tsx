@@ -41,7 +41,7 @@ const Input = ({
             id={inputId}
             aria-invalid={!!error}
             className={`
-              w-full bg-white border border-stone-300 rounded-xl py-2.5 text-md text-stone-800 
+              w-full bg-white border border-stone-300 rounded-xl py-3 text-md text-stone-800 
               placeholder:text-stone-400 outline-none transition-all shadow-xs
               focus:border-amber-800 focus:ring-1 focus:ring-amber-800
               ${leftIcon ? "pl-10" : "px-3"}
