@@ -6,17 +6,19 @@ import ShelfPage from './Pages/ShelfPage'
 import StatsPage from './Pages/StatsPage'
 import ReflectionsPage from './Pages/ReflectionsPage'
 import { Routes, Route } from 'react-router-dom'
+import PrivateRoute from './components/PrivateRoute'
 
 function App() {
   return (
     <Routes>
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/library" element={<LibraryPage />} />
-      <Route path="/shelf" element={<ShelfPage />} />
-      <Route path="/stats" element={<StatsPage />} />
-      <Route path="/reflections" element={<ReflectionsPage />} />
-      <Route path="/profile" element={<ProfilePage />} />
+
+      <Route path="/library" element={<PrivateRoute><LibraryPage /></PrivateRoute>} />
+      <Route path="/shelf" element={<PrivateRoute><ShelfPage /></PrivateRoute>} />
+      <Route path="/stats" element={<PrivateRoute><StatsPage /></PrivateRoute>} />
+      <Route path="/reflections" element={<PrivateRoute><ReflectionsPage /></PrivateRoute>} />
+      <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
     </Routes>
   )
 }

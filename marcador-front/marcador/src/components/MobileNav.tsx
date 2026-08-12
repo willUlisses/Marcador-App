@@ -28,16 +28,16 @@ const MobileNav = () => {
     ]
 
     return (
-        <nav className="bg-orange-100 px-2 py-1 left-4 right-4 rounded-full border-stone-400 border fixed bottom-4 z-50">
+        <nav className="bg-[#f0e8d3] px-2 py-1 left-4 right-4 rounded-full border-stone-400 border fixed bottom-4 z-50">
             <div className="flex items-center">
                 {navItem.map((item) => (
                     <div
                         key={item.label}
-                        className={`${currentTab === item.label ? "bg-amber-950 rounded-full px-3" : ""} w-full py-1 h-full hover:cursor-pointer transition-discrete duration-200`}
+                        className={`${currentTab === item.label ? "bg-amber-950 rounded-full px-3" : ""} w-full h-full py-2 hover:cursor-pointer transition-discrete duration-200`}
                         onClick={() => setCurrentTab(item.label)}>
                         <div className="flex flex-col items-center gap-0.5">
                             {item.icon}
-                            <span className={`text-[11px] ${currentTab === item.label ? "text-stone-300" : "text-stone-800"}`}>{item.label}</span>
+                            <span className={`text-xs font-medium font-source tracking-wide ${currentTab === item.label ? "text-stone-300" : "text-stone-800"}`}>{item.label}</span>
                         </div>
                     </div>
                 ))}
