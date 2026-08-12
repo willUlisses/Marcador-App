@@ -28,7 +28,7 @@ const MobileNav = () => {
     ]
 
     return (
-        <nav className="bg-[#f0e8d3] px-2 py-1 left-4 right-4 rounded-full border-stone-400 border fixed bottom-4 z-50">
+        <nav className="bg-[#f5eede] px-2 py-1 left-4 right-4 rounded-full border-stone-400 border fixed bottom-4 z-50">
             <div className="flex items-center">
                 {navItem.map((item) => (
                     <div
