@@ -51,22 +51,22 @@ const LoginPage = () => {
                     <Bookmark className="w-8 h-8 text-white"/>
                 </div>
                 <div className="flex flex-col items-center gap-4">
-                    <h1 className="text-2xl text-[#7A3B2E] font-bold">Marcador</h1>
+                    <h1 className="text-2xl text-stone-700 font-extrabold font-libre">Marcador</h1>
                     <p className="text-stone-500 font-medium">Seu diário de leitura pessoal</p>
                 </div>
             </div>
 
                 
-            <div className="w-full sm:max-w-1/2 lg:max-w-1/3  bg-[#F0E8D4] rounded-2xl shadow-lg py-6 px-4 border border-stone-300 my-auto">
-                <h1 className="text-xl font-bold mb-4">Login</h1>
+            <div className="w-full sm:max-w-1/2 lg:max-w-1/3 flex flex-col bg-[#F0E8D4] rounded-3xl shadow-lg py-6 px-4 border border-stone-300 my-auto">
+                <h1 className="text-xl font-extrabold mb-6 text-stone-700 font-libre tracking-wider">Entrar</h1>
 
-                <form className="flex flex-col gap-2 py-2" onSubmit={handleSubmit(handleLoginSubmit)}>
+                <form className="flex flex-col gap-3 py-2" onSubmit={handleSubmit(handleLoginSubmit)}>
                     <div className="flex flex-col gap-1">
                         <Input
                             {...register("username")}
-                            id="username" 
+                            id="username"
                             placeholder="Usuário" 
-                            label="Usuário" 
+                            label="NOME DE USUÁRIO" 
                             leftIcon={<User className="w-5 h-5"/>} 
                             type="text" 
                             error={errors.username?.message} />
@@ -77,7 +77,7 @@ const LoginPage = () => {
                             {...register("password")}
                             id="password" 
                             placeholder="●●●●●●" 
-                            label="Senha" 
+                            label="SENHA" 
                             leftIcon={<Lock className="w-5 h-5"/>}  
                             type="password" 
                             error={errors.password?.message}/>
@@ -89,7 +89,11 @@ const LoginPage = () => {
                         Entrar
                     </button>
                 </form>
+                <span className="flex flex-row gap-1 text-sm text-stone-500 self-center">
+                    Não tem uma conta? <button onClick={() => navigate("/register")} className="text-[#7A3B2E] font-semibold hover:underline hover:cursor-pointer">Registre-se</button>
+                </span>
             </div>
+
 
         </div>
     )
