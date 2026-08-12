@@ -52,25 +52,25 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className="flex flex-col w-full min-h-screen items-center bg-amber-50 px-4 py-24 gap-4">
+        <div className="flex flex-col w-full min-h-screen items-center justify-center bg-[#f0e9dd] gap-12 px-5">
 
             <div className="flex flex-col gap-3 items-center">
                 <div className="bg-[#7A3B2E] shadow-2xl p-4 rounded-2xl w-fit">
                     <Bookmark className="w-8 h-8 text-white"/>
                 </div>
                 <div className="flex flex-col items-center gap-4">
-                    <h1 className="text-2xl text-stone-700 font-extrabold font-libre">Marcador</h1>
+                    <h1 className="text-2xl text-amber-950/80 font-extrabold font-libre tracking-wider">Marcador</h1>
                 </div>
             </div>
                 
-            <div className="w-full sm:max-w-1/2 lg:max-w-1/3 flex flex-col bg-[#F0E8D4] rounded-3xl shadow-lg py-6 px-4 border border-stone-300 my-auto">
-                <h1 className="text-xl font-extrabold mb-6 text-stone-700 font-libre tracking-wider">Cadastrar</h1>
+            <div className="w-full sm:max-w-1/2 lg:max-w-1/3 flex flex-col bg-[#f0e8d3] rounded-3xl shadow-lg py-6 px-4 border border-[#deceba]">
+                <h1 className="text-xl font-extrabold mb-6 text-amber-950/80 font-libre tracking-wider">Cadastrar</h1>
 
                 <form className="flex flex-col gap-3 py-2" onSubmit={handleSubmit(handleRegisterSubmit)}>
                     <Input
                         {...register("email")}
                         id="email"
-                        placeholder="Email" 
+                        placeholder="seu_email@email.com" 
                         label="EMAIL" 
                         leftIcon={<Mail className="w-4.5 h-4.5"/>} 
                         type="email" 
@@ -88,7 +88,7 @@ const RegisterPage = () => {
                     <Input 
                         {...register("password")}
                         id="password" 
-                        placeholder="●●●●●●" 
+                        placeholder="••••••" 
                         label="SENHA" 
                         leftIcon={<Lock className="w-4.5 h-4.5"/>}  
                         type="password" 
@@ -97,7 +97,7 @@ const RegisterPage = () => {
                     <Input 
                         {...register("confirmPassword")} 
                         id="confirmPassword" 
-                        placeholder="●●●●●●" 
+                        placeholder="••••••" 
                         label="CONFIRMAR SENHA" 
                         leftIcon={<Lock className="w-4.5 h-4.5"/>} 
                         type="password" 
@@ -109,12 +109,11 @@ const RegisterPage = () => {
                         Registrar
                     </button>
                 </form>
+
                 <span className="flex flex-row gap-1 text-sm text-stone-500 self-center">
                     Já tem uma conta? <button onClick={() => navigate("/login")} className="text-[#7A3B2E] font-semibold hover:underline hover:cursor-pointer">Faça login</button>
                 </span>
             </div>
-
-
         </div>
     )
 }
