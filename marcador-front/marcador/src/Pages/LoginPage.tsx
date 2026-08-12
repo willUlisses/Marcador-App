@@ -16,7 +16,6 @@ const loginSchema = z.object({
 type LoginSchema = z.infer<typeof loginSchema>
 
 const LoginPage = () => {
-
     const { login } = useAuth();
     const navigate = useNavigate();
 
