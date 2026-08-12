@@ -14,7 +14,16 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: "Lora";
+    src: url("../assets/fonts/Lora/Lora-VariableFont_wght.ttf") format("truetype");
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+}
+
 @theme {
     --font-source: "Source Sans 3", sans-serif;
     --font-libre: "Libre Baskerville", serif;
+    --font-lora: "Lora", serif;
 }
