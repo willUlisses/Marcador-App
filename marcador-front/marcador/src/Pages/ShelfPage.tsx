@@ -13,7 +13,9 @@ const ShelfPage = () => {
 
             <main>
                 <h1 className="font-lora text-xl tracking-wide">Lendo Agora</h1>
-                <div className="">div com dados do livro em leitura atual.</div>
+                <div className="">
+                    fazer componente pra mostrar o livro que está sendo lido atualmente
+                </div>
                 <br />
                 <div>div com gráfico da quantidade de páginas lidas na semana (em cada dia e total)</div>
             </main>
