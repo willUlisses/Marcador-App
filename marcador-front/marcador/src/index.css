@@ -27,3 +27,9 @@
     --font-libre: "Libre Baskerville", serif;
     --font-lora: "Lora", serif;
 }
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+}
