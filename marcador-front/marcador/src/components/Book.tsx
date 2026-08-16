@@ -43,7 +43,7 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
                 <hr className="border-stone-300 w-[70%] self-center"/>
             </div>
 
-            <h2 className="line-clamp text-white font-lora font-bold text-md text-center">{title}</h2>
+            <h2 className="line-clamp-2 text-white font-lora font-bold text-md text-center tracking-wider leading-tight">{title}</h2>
 
             <span className="text-white text-sm font-source text-center bg-[#1a1a18a6] rounded-md p-1">
                 {currentPage} / {totalPages}
