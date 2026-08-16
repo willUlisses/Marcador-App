@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import type { BookResponse } from "../schemas/book"
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Book from "../components/Book";
@@ -23,7 +23,7 @@ const ReadingNow = ({ books }: { books: BookResponse[] }) => {
 
     if (!books || books.length === 0) {
         return (
-            <div className="w-full max-w-xl bg-[#e6decf] border border-stone-300/70 rounded-3xl p-8 text-center text-stone-600 font-lora">
+            <div className="w-full max-w-xl bg-[#e6decf] border border-stone-300/70 rounded-3xl px-4 py-16 text-center text-stone-600 font-lora">
                 <h1 className="text-xl font-lora">Você não tem nenhum livro em leitura no momento</h1>
             </div>
         );
@@ -50,7 +50,7 @@ const ReadingNow = ({ books }: { books: BookResponse[] }) => {
                 className="flex-1 flex items-center gap-6 overflow-hidden animate-in fade-in duration-300"
             >
 
-            <Book 
+            <Book
                 id={currentBook.id}
                 title={currentBook.title}
                 genres={currentBook.genres}
