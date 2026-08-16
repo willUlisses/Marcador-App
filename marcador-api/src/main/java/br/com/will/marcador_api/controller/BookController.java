@@ -38,6 +38,11 @@ public class BookController {
         return new ResponseEntity<>(bookService.findAllBooks(user), HttpStatus.OK);
     }
 
+    @GetMapping("/completed")
+    public ResponseEntity<List<BookResponse>> getAllReadingBooks(@AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(bookService.findAllReadingBooks(user), HttpStatus.OK);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<BookResponse> patchBook(
             @RequestBody @Valid PatchBookBody body,
