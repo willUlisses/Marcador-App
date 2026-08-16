@@ -28,7 +28,7 @@ const MobileNav = () => {
     ]
 
     return (
-        <nav className="bg-[#f5eede] px-2 py-1 left-4 right-4 rounded-full border-stone-400 border fixed bottom-4 z-50">
+        <nav className="bg-[#f1ebe0] px-2 py-1 left-4 right-4 rounded-full border-stone-400/50 border fixed bottom-4 z-50">
             <div className="flex items-center">
                 {navItem.map((item) => (
                     <div
@@ -37,7 +37,7 @@ const MobileNav = () => {
                         onClick={() => setCurrentTab(item.label)}>
                         <div className="flex flex-col items-center gap-0.5">
                             {item.icon}
-                            <span className={`text-xs font-medium font-source tracking-wide ${currentTab === item.label ? "text-stone-300" : "text-stone-800"}`}>{item.label}</span>
+                            <span className={`text-xs font-medium font-source tracking-wide ${currentTab === item.label ? "text-stone-300" : "hidden"}`}>{item.label}</span>
                         </div>
                     </div>
                 ))}
