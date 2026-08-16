@@ -3,10 +3,10 @@ export interface BookResponse {
     id : number,
     title : string,
     genres : string[],
-    readingStatus : string,
+    status : string,
     currentPage : number,
     totalPages : number | null,
-    rating : number | null,
+    rating : number,
     opinion : string | null
 }
 
