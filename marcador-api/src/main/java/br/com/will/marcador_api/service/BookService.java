@@ -46,6 +46,12 @@ public class BookService {
         return books.stream().map(BookResponse::from).toList();
     }
 
+    public List<BookResponse> findAllReadingBooks(User user) {
+        List<Book> completedBooks = bookRepository.findReadingBooksByUserId(user.getId());
+
+        return completedBooks.stream().map(BookResponse::from).toList();
+    }
+
     @Transactional
     public BookResponse patchBook(PatchBookBody body, Long bookId, User user) {
         User userLogged = userRepository.findById(user.getId())
