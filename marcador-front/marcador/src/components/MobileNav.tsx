@@ -37,7 +37,7 @@ const MobileNav = () => {
                         onClick={() => setCurrentTab(item.label)}>
                         <div className="flex flex-col items-center gap-0.5">
                             {item.icon}
-                            <span className={`text-xs font-medium font-source tracking-wide ${currentTab === item.label ? "text-stone-300" : "hidden"}`}>{item.label}</span>
+                            <span className={`text-[11px] font-medium tracking-widest ${currentTab === item.label ? "text-stone-300" : "hidden"}`}>{item.label.toUpperCase().trim()}</span>
                         </div>
                     </div>
                 ))}
