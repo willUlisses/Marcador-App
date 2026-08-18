@@ -1,4 +1,8 @@
 package br.com.will.marcador_api.dtos.response;
 
-public class WeeklyProgressResponse {
+import br.com.will.marcador_api.dtos.body.DailyReadingDTO;
+
+import java.util.List;
+
+public record WeeklyProgressResponse(Integer weeklyTotalPages, List<DailyReadingDTO> days) {
 }
