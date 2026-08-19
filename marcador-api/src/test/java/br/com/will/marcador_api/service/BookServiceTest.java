@@ -10,6 +10,7 @@ import br.com.will.marcador_api.entities.enums.ReadingStatus;
 import br.com.will.marcador_api.exception.NotFoundException;
 import br.com.will.marcador_api.exception.UnauthorizedException;
 import br.com.will.marcador_api.repository.BookRepository;
+import br.com.will.marcador_api.repository.ReadingLogRepository;
 import br.com.will.marcador_api.repository.UserRepository;
 import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +34,9 @@ public class BookServiceTest {
 
     @Mock
     private UserRepository userRepository;
+
+    @Mock
+    private ReadingLogRepository readingLogRepository;
 
     @InjectMocks
     private BookService bookService;
@@ -113,6 +117,8 @@ public class BookServiceTest {
                    ReadingStatus.READING,
                    "Testing Opinion"
             );
+
+
 
             Book mockBook = new Book();
             mockBook.setId(1L);

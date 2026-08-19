@@ -4,11 +4,15 @@ import ReadingNow from "../components/ReadingNow"
 import { useEffect, useState } from "react"
 import type { BookResponse } from "../schemas/book"
 import { bookService } from "../services/bookService"
+import WeeklyPages from "../components/WeeklyPages"
+import { readingLogService } from "../services/readingLogService"
+import type { WeeklyProgressResponse } from "../schemas/readingLog"
 
 const ShelfPage = () => {
     const { user } = useAuth()
 
     const [books, setBooks] = useState<BookResponse[]>([])
+    const [weeklyProgress, setWeeklyProgress] = useState<WeeklyProgressResponse>([]) 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -26,7 +30,15 @@ const ShelfPage = () => {
             }
         }
 
+        async function fetchWeeklyPagesData() {
+            const response = await readingLogService.getWeeklyProgress()
+            .then(response => {
+                setWeeklyProgress(response);
+                console.log(response)});
+        }
+
         fetchReadingNowBooks();
+        fetchWeeklyPagesData();
     }, [])
 
     return (
@@ -46,7 +58,7 @@ const ShelfPage = () => {
                 
                 {!isLoading && <ReadingNow books={books}  />}
                 <br />
-                <div>div com gráfico da quantidade de páginas lidas na semana (em cada dia e total)</div>
+                <WeeklyPages weeklyProgressResponse={weeklyProgress} />
             </main>
             <MobileNav />
         </div>
