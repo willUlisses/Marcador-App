@@ -20,3 +20,17 @@ services:
       - "${MAILSENDER_PORT}:1025"
       - "${MAIL_INTERFACE_PORT}:8025"
     restart: unless-stopped
+
+  api:
+    image: marcador-api:0.0.1
+    container_name: marcador-api
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASS}
+    depends_on:
+      - postgres
