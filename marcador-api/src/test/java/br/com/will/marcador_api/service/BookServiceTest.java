@@ -4,6 +4,7 @@ import br.com.will.marcador_api.dtos.body.CreateBookBody;
 import br.com.will.marcador_api.dtos.body.PatchBookBody;
 import br.com.will.marcador_api.dtos.response.BookResponse;
 import br.com.will.marcador_api.entities.Book;
+import br.com.will.marcador_api.entities.ReadingLog;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.entities.enums.Genre;
 import br.com.will.marcador_api.entities.enums.ReadingStatus;
@@ -118,8 +119,6 @@ public class BookServiceTest {
                    "Testing Opinion"
             );
 
-
-
             Book mockBook = new Book();
             mockBook.setId(1L);
             mockBook.setUser(mockUser);
@@ -138,6 +137,8 @@ public class BookServiceTest {
 
             Mockito.verify(userRepository, Mockito.times(1)).findById(1L);
             Mockito.verify(bookRepository, Mockito.times(1)).save(Mockito.any(Book.class));
+
+            Mockito.verify(readingLogRepository, Mockito.never()).save(Mockito.any(ReadingLog.class));
         }
 
 
@@ -213,7 +214,7 @@ public class BookServiceTest {
         }
 
         @Test
-        @DisplayName("Should update only providede fields and keep original values for null fields")
+        @DisplayName("Should update only provided fields and keep original values for null fields")
         void patchBook_PartialUpdate_Success() {
             User mockUser = new User();
             mockUser.setId(1L);
@@ -238,6 +239,34 @@ public class BookServiceTest {
             assertEquals(200, response.totalPages());
 
             Mockito.verify(bookRepository, Mockito.times(1)).save(mockBook);
+            Mockito.verify(readingLogRepository, Mockito.times(1)).save(Mockito.any(ReadingLog.class));
+        }
+
+        @Test
+        @DisplayName("Should update current page but NOT save the reading log wen regressing the page")
+        void patchBook_RegressPage_DoesNotSaveReadingLog() {
+            User mockUser = new User();
+            mockUser.setId(1L);
+
+            Book mockBook = new Book();
+            mockBook.setId(1L);
+            mockBook.setTitle("originalTitle");
+            mockBook.setCurrentPage(30);
+            mockBook.setTotalPages(200);
+            mockBook.setUser(mockUser);
+
+            PatchBookBody body = new PatchBookBody(null, null, null, null, 20, null, null);
+
+            Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+            Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(mockBook));
+            Mockito.when(bookRepository.save(Mockito.any(Book.class))).thenAnswer(i -> i.getArgument(0));
+
+            BookResponse response = bookService.patchBook(body, 1L, mockUser);
+
+            assertEquals(20, response.currentPage());
+
+            Mockito.verify(bookRepository, Mockito.times(1)).save(mockBook);
+            Mockito.verify(readingLogRepository, Mockito.never()).save(Mockito.any(ReadingLog.class));
         }
     }
 
