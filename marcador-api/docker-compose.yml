@@ -22,10 +22,12 @@ services:
     restart: unless-stopped
 
   api:
-    image: marcador-api:0.0.1
+    image: willulisses/marcador-api:multistage
     container_name: marcador-api
     ports:
       - "8080:8080"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
     environment:
@@ -34,3 +36,6 @@ services:
       SPRING_DATASOURCE_PASSWORD: ${DB_PASS}
     depends_on:
       - postgres
+
+volumes:
+  pgdata:
