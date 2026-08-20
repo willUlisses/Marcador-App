@@ -1,23 +1,65 @@
 import type { WeeklyProgressResponse } from "../schemas/readingLog";
 
 interface WeeklyPagesProps {
-    weeklyProgressResponse: WeeklyProgressResponse
+    weeklyProgressResponse: WeeklyProgressResponse;
 }
 
 const WeeklyPages = ({ weeklyProgressResponse }: WeeklyPagesProps) => {
+    const maxPages = Math.max(
+        ...weeklyProgressResponse.days.map((d) => d.pagesRead),
+        1
+    );
+
     return (
-        <div className="w-full max-w-xl bg-[#e6decf] border border-stone-300/70 rounded-3xl px-4 py-16 text-center text-stone-600 font-lora">
-            <h2>Total de páginas lidas nesta semana: {weeklyProgressResponse.weeklyTotalPages}</h2>
-            <div className="flex">
+        <div className="w-full max-w-xl bg-[#e6decf] border-stone-400/50 border rounded-3xl p-4 flex flex-col gap-3">
+            <div className="flex justify-between">
+                <h2 className="text-lg font-extrabold text-stone-800 font-lora">
+                    Esta semana
+                </h2>
+                <span className="text-sm font-bold text-[#A37322] tracking-wide">
+                    {weeklyProgressResponse.weeklyTotalPages} páginas
+                </span>
+            </div>
+
+            <div className="grid grid-cols-7 h-32 pt-4 border-b border-t border-stone-400/50">
+                {weeklyProgressResponse.days.map((dailyReading, index) => {
+                    
+                    const heightPercentage = (dailyReading.pagesRead / maxPages) * 100;
+                    const isHighlight = dailyReading.dayName === "Qui";
+
+                    return (
+                        <div
+                            key={index}
+                            className="flex flex-col items-center justify-end h-full gap-1">
+                            
+                            <span
+                                className={`text-xs font-bold transition-opacity ${isHighlight ? "text-[#d88d37]" : "text-stone-500"}`}
+                            >
+                                {dailyReading.pagesRead}
+                            </span>
+                            
+                            <div
+                                style={{ height: `${heightPercentage}%` }}
+                                className={`w-8 rounded-sm transition-all duration-300 ease-out ${
+                                    isHighlight ? "bg-[#d88d37]" : "bg-[#683120]"
+                                }`}
+                            />
+                        </div>
+                    );
+                })}
+            </div>
+            <div className="grid grid-cols-7">
                 {weeklyProgressResponse.days.map((dailyReading, index) => (
-                    <div key={index} className="flex flex-col items-center gap-4">
-                        <p className="text-sm font-bold text-stone-500 tracking-wide">{dailyReading.dayName}</p>
-                        <p className="text-sm font-bold text-stone-500 tracking-wide">{dailyReading.pagesRead}</p>
-                    </div>
+                    <p
+                        key={index}
+                        className={`text-xs font-bold tracking-wide text-center ${dailyReading.dayName === "Qui" ? "text-stone-900" : "text-stone-500/70"}`}
+                    >
+                        {dailyReading.dayName}
+                    </p>
                 ))}
             </div>
         </div>
     );
-}
+};
 
 export default WeeklyPages;
