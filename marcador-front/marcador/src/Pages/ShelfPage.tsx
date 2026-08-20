@@ -12,7 +12,10 @@ const ShelfPage = () => {
     const { user } = useAuth()
 
     const [books, setBooks] = useState<BookResponse[]>([])
-    const [weeklyProgress, setWeeklyProgress] = useState<WeeklyProgressResponse>([]) 
+    const [weeklyProgress, setWeeklyProgress] = useState<WeeklyProgressResponse>({
+        weeklyTotalPages: 0,
+        days: []
+    }) 
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -31,7 +34,7 @@ const ShelfPage = () => {
         }
 
         async function fetchWeeklyPagesData() {
-            const response = await readingLogService.getWeeklyProgress()
+            await readingLogService.getWeeklyProgress()
             .then(response => {
                 setWeeklyProgress(response);
                 console.log(response)});
