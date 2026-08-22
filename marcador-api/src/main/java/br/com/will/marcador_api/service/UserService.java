@@ -2,11 +2,13 @@ package br.com.will.marcador_api.service;
 
 import br.com.will.marcador_api.dtos.body.ChangePasswordBody;
 import br.com.will.marcador_api.dtos.body.PatchUserBody;
+import br.com.will.marcador_api.dtos.response.UserHeaderStatsResponse;
 import br.com.will.marcador_api.dtos.response.UserResponse;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.exception.BadRequestException;
 import br.com.will.marcador_api.exception.NotFoundException;
 import br.com.will.marcador_api.repository.UserRepository;
+import br.com.will.marcador_api.repository.projections.UserStatsProjection;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -59,5 +61,11 @@ public class UserService {
         } else throw new NotFoundException("User not found.");
     }
 
+    @Transactional(readOnly = true)
+    public UserHeaderStatsResponse getUserHeaderStats(Long userId) {
+        UserStatsProjection stats = userRepository.findHeaderStatsByUserId(userId);
+
+        return UserHeaderStatsResponse.fromProjection(stats);
+    }
 
 }
