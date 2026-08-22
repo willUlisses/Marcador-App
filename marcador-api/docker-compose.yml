@@ -1,6 +1,6 @@
 services:
   postgres:
-    image: postgres:latest
+    image: postgres:17-alpine
     container_name: marcador-postgres
     environment:
       POSTGRES_DB: ${DB_NAME}
@@ -8,6 +8,8 @@ services:
       POSTGRES_PASSWORD: ${DB_PASS}
     ports:
       - "${DB_PORT}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
     restart: always
 
   mailpit:
@@ -22,12 +24,11 @@ services:
     restart: unless-stopped
 
   api:
+    build: .
     image: willulisses/marcador-api:multistage
     container_name: marcador-api
     ports:
       - "8080:8080"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
     env_file:
       - .env
     environment:
