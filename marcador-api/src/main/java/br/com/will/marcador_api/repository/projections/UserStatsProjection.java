@@ -1,4 +1,4 @@
-package br.com.will.marcador_api.repository;
+package br.com.will.marcador_api.repository.projections;
 
 public interface UserStatsProjection {
     Long getBooksRead();
