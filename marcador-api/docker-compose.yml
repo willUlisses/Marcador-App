@@ -27,12 +27,12 @@ services:
     build: .
     image: willulisses/marcador-api:multistage
     container_name: marcador-api
-
     ports:
       - "8080:8080"
     env_file:
       - .env
     environment:
+      TZ: "America/Sao_Paulo"
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/${DB_NAME}
       SPRING_DATASOURCE_USERNAME: ${DB_USER}
       SPRING_DATASOURCE_PASSWORD: ${DB_PASS}

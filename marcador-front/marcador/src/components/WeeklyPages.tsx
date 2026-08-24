@@ -13,7 +13,7 @@ const WeeklyPages = ({ weeklyProgressResponse }: WeeklyPagesProps) => {
     return (
         <div className="w-full max-w-xl bg-[#e6decf] border-stone-400/50 border rounded-3xl p-4 flex flex-col gap-3">
             <div className="flex justify-between">
-                <h2 className="text-lg font-extrabold text-stone-800 font-lora">
+                <h2 className="text-2xl font-extrabold text-stone-800 font-lora">
                     Esta semana
                 </h2>
                 <span className="text-sm font-bold text-[#A37322] tracking-wide">

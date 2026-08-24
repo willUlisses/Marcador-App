@@ -46,7 +46,7 @@ const ShelfPage = () => {
     }, [])
 
     return (
-        <div className="flex flex-col w-full min-h-screen p-4 gap-10 bg-[#fcf9f5]">
+        <div className="flex flex-col w-full min-h-screen gap-4 bg-[#fcf9f5] overflow-hidden">
             <UserHeader 
             username={user.username}
             booksRead={1}
@@ -54,8 +54,8 @@ const ShelfPage = () => {
             totalPagesRead={400}
             />
 
-            <main>
-                <h1 className="font-lora text-xl tracking-wide mb-3">Lendo Agora</h1>
+            <main className="p-4">
+                <h1 className="font-lora text-2xl mb-3 font-extrabold">Lendo Agora</h1>
                 {isLoading && (
                     <div className="w-full max-w-xl py-18 bg-[#F0E8D4]/60 animate-pulse rounded-3xl flex items-center justify-center text-stone-950 font-medium text-md">
                         Carregando leituras...
