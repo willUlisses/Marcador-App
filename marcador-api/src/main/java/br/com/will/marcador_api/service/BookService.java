@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -86,18 +87,24 @@ public class BookService {
             throw new UnauthorizedException("This book does not belong to this user");
         }
 
+        Optional.ofNullable(body.totalPages()).ifPresent(book::setTotalPages);
+
         if (body.currentPage() != null) {
             updateBookProgress(book, body.currentPage(), user);
         }
 
+        if (book.getCurrentPage() > book.getTotalPages()) throw new IllegalArgumentException("A página atual não pode ser maior que o total de páginas.");
+
+        if (Objects.equals(book.getCurrentPage(), book.getTotalPages()) && book.getTotalPages() > 0) {
+            book.setStatus(ReadingStatus.COMPLETED);
+        } else {
+            Optional.ofNullable(body.status()).ifPresent(book::setStatus);
+        }
+
         Optional.ofNullable(body.title()).ifPresent(book::setTitle);
         Optional.ofNullable(body.genres()).ifPresent(book::setGenres);
-        Optional.ofNullable(body.totalPages()).ifPresent(book::setTotalPages);
-        Optional.ofNullable(body.status()).ifPresent(book::setStatus);
         Optional.ofNullable(body.opinion()).ifPresent(book::setOpinion);
         Optional.ofNullable(body.rating()).ifPresent(book::setRating);
-
-        if (book.getCurrentPage() > book.getTotalPages()) throw new IllegalArgumentException("A página atual não pode ser maior que o total de páginas.");
 
         return BookResponse.from(bookRepository.save(book));
     }
