@@ -6,11 +6,14 @@ import br.com.will.marcador_api.entities.ReadingLog;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.repository.ReadingLogRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +27,12 @@ public class ReadingLogService {
 
     @Transactional(readOnly = true)
     public WeeklyProgressResponse getWeeklyProgress(User user) {
-        LocalDate monday = LocalDate.now().with(DayOfWeek.MONDAY);
-        LocalDate sunday = LocalDate.now().with(DayOfWeek.SUNDAY);
+
+        ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
+        LocalDate today = LocalDate.now(zoneId);
+
+        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+        LocalDate sunday = today.with(TemporalAdjusters.nextOrSame(DayOfWeek.SUNDAY));
 
         List<ReadingLog> logs = readingLogRepository.findByUserAndDateBetween(user, monday, sunday);
 
