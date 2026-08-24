@@ -23,6 +23,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -68,6 +69,9 @@ public class Book {
 
     private String opinion;
 
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
+
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reflection> reflections =  new ArrayList<>();
 
@@ -76,6 +80,16 @@ public class Book {
             throw new IllegalArgumentException("A nota do livro deve estar entre 1 e 5");
         }
         this.rating = rating;
+    }
+
+    public void setStatus(ReadingStatus status) {
+        this.status = status;
+
+        if (ReadingStatus.COMPLETED.equals(status)) {
+            if (this.completedAt == null) this.completedAt = LocalDateTime.now();
+        } else {
+            this.completedAt = null;
+        }
     }
 
     public void addReflection(Reflection reflection) {
