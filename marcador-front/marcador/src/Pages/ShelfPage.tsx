@@ -7,6 +7,7 @@ import { bookService } from "../services/bookService"
 import WeeklyPages from "../components/WeeklyPages"
 import { readingLogService } from "../services/readingLogService"
 import type { WeeklyProgressResponse } from "../schemas/readingLog"
+import UserHeader from "../components/UserHeader"
 
 const ShelfPage = () => {
     const { user } = useAuth()
@@ -46,10 +47,12 @@ const ShelfPage = () => {
 
     return (
         <div className="flex flex-col w-full min-h-screen p-4 gap-10 bg-[#fcf9f5]">
-            <header>
-                <p className="text-sm font-bold text-stone-500 tracking-wide">Olá,</p>
-                <h1 className="text-3xl font-lora font-bold tracking-wider">{user.username}</h1>
-            </header>
+            <UserHeader 
+            username={user.username}
+            booksRead={1}
+            booksInQueue={3}
+            totalPagesRead={400}
+            />
 
             <main>
                 <h1 className="font-lora text-xl tracking-wide mb-3">Lendo Agora</h1>
