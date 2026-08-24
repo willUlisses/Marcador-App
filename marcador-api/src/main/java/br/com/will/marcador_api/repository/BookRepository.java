@@ -13,7 +13,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findAllByUserIdWithGenres(Long userId);
 
     @Query(value = """
-            SELECT id, user_id, title, rating, status, current_page, total_pages, opinion 
+            SELECT id, user_id, title, rating, status, current_page, total_pages, opinion, completed_at 
             FROM tb_books 
             WHERE user_id = :userId 
               AND status = 'READING'
