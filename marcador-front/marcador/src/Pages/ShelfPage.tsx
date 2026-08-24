@@ -8,6 +8,8 @@ import WeeklyPages from "../components/WeeklyPages"
 import { readingLogService } from "../services/readingLogService"
 import type { WeeklyProgressResponse } from "../schemas/readingLog"
 import UserHeader from "../components/UserHeader"
+import type { UserStatsResponse } from "../schemas/user"
+import { userService } from "../services/userService"
 
 const ShelfPage = () => {
     const { user } = useAuth()
@@ -17,6 +19,11 @@ const ShelfPage = () => {
         weeklyTotalPages: 0,
         days: []
     }) 
+    const [userStats, setUserStats] = useState<UserStatsResponse>({
+        books_read: 0,
+        books_in_queue: 0,
+        total_pages_read: 0
+    })
     const [isLoading, setIsLoading] = useState<boolean>(true)
 
     useEffect(() => {
@@ -41,17 +48,25 @@ const ShelfPage = () => {
                 console.log(response)});
         }
 
+        async function fetchUserStats() {
+            await userService.getUserStats()
+            .then(response => {
+                setUserStats(response);
+            })
+        }
+
         fetchReadingNowBooks();
         fetchWeeklyPagesData();
+        fetchUserStats();
     }, [])
 
     return (
         <div className="flex flex-col w-full min-h-screen gap-4 bg-[#fcf9f5] overflow-hidden">
             <UserHeader 
             username={user.username}
-            booksRead={1}
-            booksInQueue={3}
-            totalPagesRead={400}
+            booksRead={userStats.books_read}
+            booksInQueue={userStats.books_in_queue}
+            totalPagesRead={userStats.total_pages_read}
             />
 
             <main className="p-4">
