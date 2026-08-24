@@ -127,18 +127,47 @@ public class BookServiceTest {
 
             Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
             Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(mockBook));
-            Mockito.when(bookRepository.save(Mockito.any(Book.class))).thenReturn(mockBook);
+            Mockito.when(bookRepository.save(Mockito.any(Book.class))).thenAnswer(i -> i.getArgument(0));
 
             BookResponse response = bookService.patchBook(body, 1L,  mockUser);
 
             assertEquals("newTitle", response.title());
             assertEquals(299, response.totalPages());
+            assertEquals(30,  response.currentPage());
             assertEquals(Set.of(Genre.FACTUAL), response.genres());
+            assertEquals(ReadingStatus.READING, response.status());
+            assertEquals(3, response.rating());
+            assertEquals("Testing Opinion", response.opinion());
 
             Mockito.verify(userRepository, Mockito.times(1)).findById(1L);
             Mockito.verify(bookRepository, Mockito.times(1)).save(Mockito.any(Book.class));
 
             Mockito.verify(readingLogRepository, Mockito.never()).save(Mockito.any(ReadingLog.class));
+        }
+
+        @Test
+        @DisplayName("Must set completedAt when status is updated to COMPLETED")
+        void patchBook_SetStatusCompleted_SetsCompletedAt() {
+            User mockUser = new User();
+            mockUser.setId(1L);
+
+            Book mockBook = new Book();
+            mockBook.setId(1L);
+            mockBook.setUser(mockUser);
+            mockBook.setCurrentPage(100);
+            mockBook.setTotalPages(100);
+            mockBook.setStatus(ReadingStatus.READING);
+
+            PatchBookBody body = new PatchBookBody(null, null, null, null, null, ReadingStatus.COMPLETED, null);
+
+            Mockito.when(userRepository.findById(1L)).thenReturn(Optional.of(mockUser));
+            Mockito.when(bookRepository.findById(1L)).thenReturn(Optional.of(mockBook));
+            Mockito.when(bookRepository.save(Mockito.any(Book.class))).thenAnswer(i -> i.getArgument(0));
+
+            bookService.patchBook(body, 1L, mockUser);
+
+            assertEquals(ReadingStatus.COMPLETED, mockBook.getStatus());
+            assertNotNull(mockBook.getCompletedAt());
         }
 
 
