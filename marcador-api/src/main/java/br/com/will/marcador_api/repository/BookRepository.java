@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import org.springframework.data.domain.Pageable;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
@@ -19,4 +21,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
               AND status = 'READING'
             """, nativeQuery = true)
     List<Book> findReadingBooksByUserId(@Param("userId") Long userId);
+
+    @Query("""
+           SELECT b
+           FROM Book b 
+           WHERE b.user.id = :userId
+             AND b.status = 'COMPLETED'
+             AND b.completedAt >= :sinceDate
+           ORDER BY b.completedAt DESC
+           """)
+    List<Book> findRecentCompletedBooks(@Param("userId") Long userId, @Param("sinceDate") LocalDateTime sinceDate, Pageable pageable);
 }
