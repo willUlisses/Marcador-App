@@ -16,7 +16,7 @@ const UserHeader = (props: UserHeaderProps) => {
                 <h2 className="text-white font-extrabold font-lora tracking-wide text-3xl">{props.username}</h2>
             </div>
 
-            <div className="grid grid-cols-3 max-w-sm gap-3 w-full items-center">
+            <div className="grid grid-cols-3 max-w-sm gap-3 w-full items-center px-3">
                 <div className="flex flex-col items-center gap-1 border border-stone-300/40 bg-stone-300/10 rounded-xl px-3 py-2">
                     <span className="font-lora text-xl font-bold tracking-wider">{props.booksRead}</span>
                     <span className="text-xs tracking-wider text-stone-300/90 font-bold">LIDOS</span>
