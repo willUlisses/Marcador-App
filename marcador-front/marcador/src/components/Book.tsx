@@ -21,11 +21,11 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
                 backgroundColor: bookColours[id % bookColours.length], 
                 borderLeftColor: bookBorderColours[id % bookBorderColours.length] 
             }}
-            className="flex flex-col justify-evenly items-center w-28 h-46 px-2 border-l-[5px] rounded-lg">
+            className="flex flex-col justify-evenly items-center w-26 h-44 px-2 border-l-[5px] rounded-lg shadow-lg shadow-stone-800/15">
                 
             <span
-                className={`text-[11px] font-bold tracking-widest text-center ${status == "COMPLETADO" ? "rounded-full bg-green-700 p-1" : "bg-amber-400 rounded-md px-2 text-center"}`}>
-                {status === "COMPLETADO" ? <Check className="text-white" size={14} strokeWidth={4} /> : status.replace("_", " ")}
+                className={`text-[11px] font-bold tracking-widest text-center ${status == "COMPLETED" ? "rounded-full bg-green-700 p-1" : "bg-amber-400 rounded-md px-2 text-center"}`}>
+                {status === "COMPLETED" ? <Check className="text-white" size={14} strokeWidth={4} /> : status.replace("_", " ")}
             </span>
 
             <div className="flex flex-col gap-2">

@@ -43,6 +43,11 @@ public class BookController {
         return new ResponseEntity<>(bookService.findAllReadingBooks(user), HttpStatus.OK);
     }
 
+    @GetMapping("/recent")
+    public ResponseEntity<List<BookResponse>> getRecentCompletedBooks(@AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(bookService.getRecentCompletedBooks(user.getId()), HttpStatus.OK);
+    }
+
     @PatchMapping("/{id}")
     public ResponseEntity<BookResponse> patchBook(
             @RequestBody @Valid PatchBookBody body,
