@@ -28,21 +28,23 @@ const MobileNav = () => {
     ]
 
     return (
-        <nav className="bg-[#f1ebe0] px-2 py-1 left-4 right-4 rounded-full border-stone-400/50 border fixed bottom-4 z-50">
-            <div className="flex items-center">
-                {navItem.map((item) => (
-                    <div
-                        key={item.label}
-                        className={`${currentTab === item.label ? "bg-amber-950 rounded-full px-3" : ""} w-full h-full py-2 hover:cursor-pointer transition-discrete duration-200`}
-                        onClick={() => setCurrentTab(item.label)}>
-                        <div className="flex flex-col items-center gap-0.5">
-                            {item.icon}
-                            <span className={`text-[11px] font-medium tracking-widest ${currentTab === item.label ? "text-stone-300" : "hidden"}`}>{item.label.toUpperCase().trim()}</span>
+        <div className="w-full py-3 px-4 fixed bottom-0 left-0 right-0 z-50 bg-[#fcf9f5]">
+            <nav className="bg-[#f1ebe0] px-3 py-1 shadow-lg rounded-full border-stone-400/50 border">
+                <div className="flex items-center">
+                    {navItem.map((item) => (
+                        <div
+                            key={item.label}
+                            className={`${currentTab === item.label ? "bg-amber-950 rounded-full px-3" : ""} w-full h-full py-2 hover:cursor-pointer transition-discrete duration-200`}
+                            onClick={() => setCurrentTab(item.label)}>
+                            <div className="flex flex-col items-center gap-0.5">
+                                {item.icon}
+                                <span className={`text-[11px] font-medium tracking-widest ${currentTab === item.label ? "text-stone-300" : "hidden"}`}>{item.label.toUpperCase().trim()}</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-        </nav>
+                    ))}
+                </div>
+            </nav>
+        </div>
     )
 }
 
