@@ -13,10 +13,13 @@ import br.com.will.marcador_api.repository.BookRepository;
 import br.com.will.marcador_api.repository.ReadingLogRepository;
 import br.com.will.marcador_api.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -125,6 +128,13 @@ public class BookService {
         bookRepository.delete(book);
     }
 
+    public List<BookResponse> getRecentCompletedBooks(Long userId) {
+        LocalDateTime threeMonthsAgo = LocalDateTime.now().minusMonths(3);
+        Pageable limit = PageRequest.of(0, 5);
 
+        List<Book> recentCompletedBooks = bookRepository.findRecentCompletedBooks(userId, threeMonthsAgo, limit);
+
+        return recentCompletedBooks.stream().map(BookResponse::from).toList();
+    }
 
 }
