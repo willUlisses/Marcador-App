@@ -60,7 +60,6 @@ const ShelfPage = () => {
         async function fetchRecentReadBooks() {
             await bookService.getAllCompletedBooks()
             .then(response => {
-                console.log(response)
                 setCompletedBooks(response);
             })
         }
@@ -80,7 +79,7 @@ const ShelfPage = () => {
                 totalPagesRead={userStats.total_pages_read}
             />
 
-            <main className="p-4 flex flex-col gap-3">
+            <main className="px-4 flex flex-col gap-3">
                 <div>
                     <h1 className="font-lora text-xl mb-3 font-extrabold">Lendo Agora</h1>
                     {isLoading && (

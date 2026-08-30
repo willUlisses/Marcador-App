@@ -25,3 +25,5 @@ export interface PatchBookBody {
     readingStatus?: "QUERO_LER" | "LENDO" | "COMPLETADO" | "ABANDONADO",
     opinion?: string
 }
+
+export type ReadingStatus = 'WANT_TO_READ' | 'READING' | 'COMPLETED' | 'DROPPED';

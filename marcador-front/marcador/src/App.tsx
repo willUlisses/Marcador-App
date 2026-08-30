@@ -15,7 +15,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
 
       <Route path="/library" element={<PrivateRoute><LibraryPage /></PrivateRoute>} />
-      <Route path="/shelf" element={<PrivateRoute><ShelfPage /></PrivateRoute>} />
+      <Route path="/" element={<PrivateRoute><ShelfPage /></PrivateRoute>} />
       <Route path="/stats" element={<PrivateRoute><StatsPage /></PrivateRoute>} />
       <Route path="/reflections" element={<PrivateRoute><ReflectionsPage /></PrivateRoute>} />
       <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
