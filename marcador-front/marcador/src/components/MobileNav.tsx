@@ -1,47 +1,64 @@
 import { Book, ChartNoAxesColumnIncreasing, Home, MessageSquare, User } from "lucide-react"
-import { useState } from "react"
+import { useLocation, Link } from "react-router-dom"
 
 const MobileNav = () => {
-    const [currentTab, setCurrentTab] = useState("Estante")
+    const location = useLocation();
 
-    const navItem = [
+    const navItems = [
         {
-            icon: <Home className={`size-5 ${currentTab === "Estante" ? "text-stone-300" : "text-stone-800"}`} />,
-            label: "Estante"
+            icon: Home,
+            label: "Estante",
+            path: "/"
         },
         {
-            icon: <Book className={`size-5 ${currentTab === "Biblioteca" ? "text-stone-300" : "text-stone-800"}`} />,
-            label: "Biblioteca"
+            icon: Book,
+            label: "Biblioteca",
+            path: "/library"
         },
         {
-            icon: <ChartNoAxesColumnIncreasing className={`size-5 ${currentTab === "Métricas" ? "text-stone-300" : "text-stone-800"}`} />,
-            label: "Métricas"
+            icon: ChartNoAxesColumnIncreasing,
+            label: "Métricas",
+            path: "/stats"
         },
         {
-            icon: <MessageSquare className={`size-5 ${currentTab === "Reflexões" ? "text-stone-300" : "text-stone-800"}`} />,
-            label: "Reflexões"
+            icon: MessageSquare,
+            label: "Reflexões",
+            path: "/reflections"
         },
         {
-            icon: <User className={`size-5 ${currentTab === "Perfil" ? "text-stone-300" : "text-stone-800"}`} />,
-            label: "Perfil"
+            icon: User,
+            label: "Perfil",
+            path: "/profile"
         }
     ]
 
     return (
-        <div className="w-full py-3 px-4 fixed bottom-0 left-0 right-0 z-50 bg-[#fcf9f5]">
-            <nav className="bg-[#f1ebe0] px-3 py-1 shadow-lg rounded-full border-stone-400/50 border">
+        <div className="w-full py-2 px-4 fixed bottom-0 left-0 right-0 z-50 bg-[#fcf9f5]">
+            <nav className="bg-[#f1ebe0] px-4 py-1 shadow-lg rounded-full border-stone-400/50 border">
                 <div className="flex items-center">
-                    {navItem.map((item) => (
-                        <div
+                    {navItems.map((item) => {
+                        
+                        const Icon = item.icon;
+                        const isActive = location.pathname === item.path
+
+                        return (
+                        <Link
                             key={item.label}
-                            className={`${currentTab === item.label ? "bg-amber-950 rounded-full px-3" : ""} w-full h-full py-2 hover:cursor-pointer transition-discrete duration-200`}
-                            onClick={() => setCurrentTab(item.label)}>
-                            <div className="flex flex-col items-center gap-0.5">
-                                {item.icon}
-                                <span className={`text-[11px] font-medium tracking-widest ${currentTab === item.label ? "text-stone-300" : "hidden"}`}>{item.label.toUpperCase().trim()}</span>
-                            </div>
-                        </div>
-                    ))}
+                            to={item.path}
+                            className={`${isActive ? "bg-amber-950 rounded-full px-3" : ""} w-full py-2 hover:cursor-pointer transition-discrete duration-200`}
+                        >
+                            <div
+                                key={item.label}
+                                className="flex flex-col items-center gap-0.5"
+                                >
+                                <div className="flex flex-col items-center gap-0.5">
+                                    <Icon className={`size-5 ${isActive ? "text-stone-300" : "text-stone-800"}`}/>
+                                    <span className={`text-[11px] font-medium tracking-widest ${isActive ? "text-stone-300" : "hidden"}`}>{item.label.toUpperCase().trim()}</span>
+                                </div>
+                            </div>  
+                        </Link>
+                        )
+                    })}
                 </div>
             </nav>
         </div>

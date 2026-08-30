@@ -60,6 +60,12 @@ public class BookService {
         return completedBooks.stream().map(BookResponse::from).toList();
     }
 
+    public List<BookResponse> findBooksWithFilter(User user, ReadingStatus readingStatus) {
+        List<Book> books = bookRepository.findBooksWithFilter(user.getId(), readingStatus);
+
+        return books.stream().map(BookResponse::from).toList();
+    }
+
     private void updateBookProgress(Book book, Integer currentPage, User user) {
         if (currentPage < 0) throw new IllegalArgumentException("a página atual não pode ser negativa");
 

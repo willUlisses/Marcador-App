@@ -1,6 +1,7 @@
 package br.com.will.marcador_api.repository;
 
 import br.com.will.marcador_api.entities.Book;
+import br.com.will.marcador_api.entities.enums.ReadingStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -31,4 +32,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
            ORDER BY b.completedAt DESC
            """)
     List<Book> findRecentCompletedBooks(@Param("userId") Long userId, @Param("sinceDate") LocalDateTime sinceDate, Pageable pageable);
+
+    @Query("""
+            SELECT b 
+            FROM Book b
+            WHERE b.user.id = :userId
+                AND (:status IS NULL OR b.status = :status)
+    """)
+    List<Book> findBooksWithFilter(@Param("userId") Long userId, @Param("status") ReadingStatus status);
+
 }
