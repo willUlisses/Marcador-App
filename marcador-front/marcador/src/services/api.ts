@@ -2,9 +2,10 @@ const apiUrl = import.meta.env.VITE_API_URL;
     
 interface CustomOptions extends RequestInit {
     auth?: boolean;
+    params?: Record<string, string | number | boolean | undefined | null>;
 }
 
-export async function http<T>(endpoint: string, { method, body, auth = true, ...config}: CustomOptions = {}): Promise<T> {
+export async function http<T>(endpoint: string, { method, body, auth = true, params, ...config}: CustomOptions = {}): Promise<T> {
     
 
     const headers : HeadersInit = {
@@ -19,13 +20,28 @@ export async function http<T>(endpoint: string, { method, body, auth = true, ...
         }
     }
 
-    const response = await fetch(`${apiUrl}${endpoint}`, {
+    let url = `${apiUrl}${endpoint}`;
+    if (params) {
+        const searchParams = new URLSearchParams();
+        Object.entries(params).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== "") {
+                searchParams.append(key, String(value));
+            }
+        });
+        
+        const queryString = searchParams.toString();
+        if (queryString) {
+            url += `?${queryString}`;
+        }
+    }
+
+    const response = await fetch(url, {
         method,
         body,
         ...config,
         headers,
     });
-
+    
     if (response.status === 401) {
         localStorage.removeItem("marcador.token");
         window.location.href = "/login";
