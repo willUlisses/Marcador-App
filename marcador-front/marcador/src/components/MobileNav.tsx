@@ -8,7 +8,7 @@ const MobileNav = () => {
         {
             icon: Home,
             label: "Estante",
-            path: "/shelf"
+            path: "/"
         },
         {
             icon: Book,
@@ -32,11 +32,9 @@ const MobileNav = () => {
         }
     ]
 
-    
-
     return (
-        <div className="w-full py-3 px-4 fixed bottom-0 left-0 right-0 z-50 bg-[#fcf9f5]">
-            <nav className="bg-[#f1ebe0] px-3 py-1 shadow-lg rounded-full border-stone-400/50 border">
+        <div className="w-full py-2 px-4 fixed bottom-0 left-0 right-0 z-50 bg-[#fcf9f5]">
+            <nav className="bg-[#f1ebe0] px-4 py-1 shadow-lg rounded-full border-stone-400/50 border">
                 <div className="flex items-center">
                     {navItems.map((item) => {
                         
