@@ -32,9 +32,8 @@ const LoginPage = () => {
         };
 
         authService.login(body).then((response) => {
-            console.log(response);
             login(response);
-            navigate("/shelf");
+            navigate("/");
         })
         .catch((error) => {
             console.log(error);
