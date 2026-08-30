@@ -4,6 +4,7 @@ import br.com.will.marcador_api.dtos.body.CreateBookBody;
 import br.com.will.marcador_api.dtos.body.PatchBookBody;
 import br.com.will.marcador_api.dtos.response.BookResponse;
 import br.com.will.marcador_api.entities.User;
+import br.com.will.marcador_api.entities.enums.ReadingStatus;
 import br.com.will.marcador_api.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -36,6 +38,12 @@ public class BookController {
     @GetMapping
     public ResponseEntity<List<BookResponse>> getAllUserBooks(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(bookService.findAllBooks(user), HttpStatus.OK);
+    }
+
+    @GetMapping("/filter")
+    public ResponseEntity<List<BookResponse>> getUserBooksWithFilter(@AuthenticationPrincipal User user,
+                                                                     @RequestParam(required = false)ReadingStatus status) {
+        return new ResponseEntity<>(bookService.findBooksWithFilter(user, status), HttpStatus.OK);
     }
 
     @GetMapping("/completed")
