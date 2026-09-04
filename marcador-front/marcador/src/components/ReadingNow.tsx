@@ -61,7 +61,7 @@ const ReadingNow = ({ books }: { books: BookResponse[] }) => {
                 opinion={currentBook.opinion} />
             
             <div className="flex-1 flex flex-col gap-2 min-w-0">
-                <span className="text-[12px] font-bold tracking-widest text-[#A37322]">
+                <span className="text-[12px] font-bold tracking-widest text-[#99581b]">
                 EM LEITURA
                 </span>
 
@@ -73,12 +73,12 @@ const ReadingNow = ({ books }: { books: BookResponse[] }) => {
                 <span>
                     p. {currentBook.currentPage} / {currentBook.totalPages || "?"}
                 </span>
-                <span className="font-bold text-[#A37322] text-sm">{percentRead}%</span>
+                <span className="font-bold text-[#99581b] text-sm">{percentRead}%</span>
                 </div>
 
-                <div className="w-full h-2.5 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
+                <div className="w-full h-2 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
                 <div
-                    className="h-full bg-[#c78649] rounded-full transition-all duration-500 ease-out"
+                    className="h-full bg-[#99581b] rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${percentRead}%` }}
                 />
                 </div>
