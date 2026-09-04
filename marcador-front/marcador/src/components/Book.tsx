@@ -21,7 +21,7 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
                 backgroundColor: bookColours[id % bookColours.length], 
                 borderLeftColor: bookBorderColours[id % bookBorderColours.length] 
             }}
-            className="flex flex-col justify-evenly items-center w-26 h-44 px-2 border-l-[5px] rounded-lg shadow-lg shadow-stone-800/15">
+            className="flex flex-col hover:cursor-pointer justify-evenly items-center w-26 h-44 px-2 border-l-[5px] rounded-lg shadow-lg shadow-stone-800/15">
                 
             <span
                 className={`text-[11px] font-bold tracking-widest text-center ${status == "COMPLETED" ? "rounded-full bg-green-700 p-1" : "bg-amber-400 rounded-md px-2 text-center"}`}>
@@ -35,7 +35,7 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
                     {Array.from({ length: 5 }).map((_, index) => (
                         <Star
                             key={index}
-                            className={`size-3.5 ${index < rating ? "fill-amber-400 text-yellow-400" : "text-yellow-400"}`}
+                            className={`size-3 text-yellow-400 ${index < rating ? "fill-amber-400" : ""}`}
                         />
                     ))}
                 </div>
@@ -43,9 +43,9 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
                 <hr className="border-stone-300 w-[70%] self-center"/>
             </div>
 
-            <h2 className="line-clamp-2 text-white font-lora font-bold text-md text-center tracking-wider leading-tight">{title}</h2>
+            <h2 className="line-clamp-2 text-[12px] text-white font-lora font-bold text-center tracking-wider leading-tight">{title}</h2>
 
-            <span className="text-white text-sm font-source text-center bg-[#1a1a18a6] rounded-md p-1">
+            <span className="text-white text-sm text-center bg-[#1a1a18a6] rounded-md p-1">
                 {currentPage} / {totalPages}
             </span>
         </div>
