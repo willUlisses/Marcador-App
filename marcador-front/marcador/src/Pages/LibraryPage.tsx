@@ -67,13 +67,15 @@ const LibraryPage = () => {
                             Nenhum livro encontrado nesta categoria.
                         </p>
                     ) : (
-                        books.map((book, key) => (
-
+                        books.map((book) => {
                             
+                            const percentage = book.totalPages > 0 ? 
+                                Math.min(100, Math.round((book.currentPage / book.totalPages) * 100)) 
+                                : 0;
 
-                                <div className="flex flex-col gap-1 min-w-0 w-26 overflow-hidden">
+                            return (
+                                <div key={book.id} className="flex flex-col gap-1 min-w-0 w-26 overflow-hidden">
                                     <Book
-                                        key={key}
                                         id={book.id}
                                         title={book.title}
                                         genres={book.genres}
@@ -105,7 +107,7 @@ const LibraryPage = () => {
                                         <div className="w-full h-1.25 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
                                             <div
                                                 className="h-full bg-[#99581b] rounded-full transition-all duration-500 ease-out"
-                                                style={{ width: `${Math.min(100, Math.round((book.currentPage / book.totalPages) * 100))}%` }}
+                                                style={{ width: `${percentage}%` }}
                                             />
                                         </div>
 
@@ -113,7 +115,7 @@ const LibraryPage = () => {
                                             <span 
                                                 className="text-[10px] font-semibold text-stone-600"
                                                 >
-                                                {Math.min(100, Math.round((book.currentPage / book.totalPages) * 100))}%
+                                                {percentage}%
                                             </span>
 
                                             <span className="text-[10px] font-semibold text-stone-600">
@@ -122,7 +124,7 @@ const LibraryPage = () => {
                                         </div>
                                     </div>
                                 </div>
-                        ))
+                        )})
                     )}
                 </div>
             )}
