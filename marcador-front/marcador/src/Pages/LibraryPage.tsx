@@ -67,10 +67,13 @@ const LibraryPage = () => {
                             Nenhum livro encontrado nesta categoria.
                         </p>
                     ) : (
-                        books.map((book) => (
+                        books.map((book, key) => (
+
+                            
+
                                 <div className="flex flex-col gap-1 min-w-0 w-26 overflow-hidden">
                                     <Book
-                                        key={book.id}
+                                        key={key}
                                         id={book.id}
                                         title={book.title}
                                         genres={book.genres}
@@ -81,7 +84,7 @@ const LibraryPage = () => {
                                         opinion={book.opinion} />
 
                                     <div className="flex flex-col flex-1 gap-1">
-                                        <span className="font-lora font-bold text-sm truncate w-full">
+                                        <span className="font-lora font-bold text-[13px] truncate w-full">
                                             {book.title}
                                         </span>
 
@@ -92,10 +95,30 @@ const LibraryPage = () => {
 
                                             <button
                                                 type="button"
+                                                onClick={() => bookService.delete(book.id)}
                                                 className="border-stone-400/50 border text-stone-600 px-1 py-1 rounded-lg font-semibold text-xs hover:bg-red-800 hover:text-white transition-colors duration-300"
                                             >
                                                 <Trash2 size={14} />
                                             </button>
+                                        </div>
+
+                                        <div className="w-full h-1.25 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
+                                            <div
+                                                className="h-full bg-[#99581b] rounded-full transition-all duration-500 ease-out"
+                                                style={{ width: `${Math.min(100, Math.round((book.currentPage / book.totalPages) * 100))}%` }}
+                                            />
+                                        </div>
+
+                                        <div className="flex justify-between items-center">
+                                            <span 
+                                                className="text-[10px] font-semibold text-stone-600"
+                                                >
+                                                {Math.min(100, Math.round((book.currentPage / book.totalPages) * 100))}%
+                                            </span>
+
+                                            <span className="text-[10px] font-semibold text-stone-600">
+                                                {book.currentPage}/{book.totalPages}
+                                            </span>
                                         </div>
                                     </div>
                                 </div>
