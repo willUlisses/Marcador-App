@@ -3,6 +3,7 @@ import MobileNav from "../components/MobileNav";
 import { bookService } from "../services/bookService";
 import type { BookResponse, ReadingStatus } from "../schemas/book";
 import Book from "../components/Book";
+import { Trash2 } from "lucide-react";
 
 const filterOptions = [
     { label: "Todos", value: "" },
@@ -67,16 +68,37 @@ const LibraryPage = () => {
                         </p>
                     ) : (
                         books.map((book) => (
-                                <Book
-                                    key={book.id}
-                                    id={book.id}
-                                    title={book.title}
-                                    genres={book.genres}
-                                    status={book.status}
-                                    currentPage={book.currentPage}
-                                    totalPages={book.totalPages}
-                                    rating={book.rating}
-                                    opinion={book.opinion} />
+                                <div className="flex flex-col gap-1 min-w-0 w-26 overflow-hidden">
+                                    <Book
+                                        key={book.id}
+                                        id={book.id}
+                                        title={book.title}
+                                        genres={book.genres}
+                                        status={book.status}
+                                        currentPage={book.currentPage}
+                                        totalPages={book.totalPages}
+                                        rating={book.rating}
+                                        opinion={book.opinion} />
+
+                                    <div className="flex flex-col flex-1 gap-1">
+                                        <span className="font-lora font-bold text-sm truncate w-full">
+                                            {book.title}
+                                        </span>
+
+                                        <div className="flex justify-between items-center w-full">
+                                            <span className="font-bold text-[10px] tracking-widest text-yellow-600">
+                                                {getBookLabel(book.status)}
+                                            </span>
+
+                                            <button
+                                                type="button"
+                                                className="border-stone-400/50 border text-stone-600 px-1 py-1 rounded-lg font-semibold text-xs hover:bg-red-800 hover:text-white transition-colors duration-300"
+                                            >
+                                                <Trash2 size={14} />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                         ))
                     )}
                 </div>
@@ -86,5 +108,18 @@ const LibraryPage = () => {
         </div>
     );
 };
+
+const getBookLabel = (status: string) => {
+    switch (status) {
+        case "READING":
+            return "LENDO";
+        case "COMPLETED":
+            return "LIDO";
+        case "DROPPED":
+            return "PAUSADO";
+        case "WANT_TO_READ":
+            return "NA FILA";
+    }
+}
 
 export default LibraryPage;
