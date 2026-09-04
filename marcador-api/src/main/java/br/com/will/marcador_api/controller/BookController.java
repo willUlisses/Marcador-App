@@ -46,7 +46,7 @@ public class BookController {
         return new ResponseEntity<>(bookService.findBooksWithFilter(user, status), HttpStatus.OK);
     }
 
-    @GetMapping("/completed")
+    @GetMapping("/reading")
     public ResponseEntity<List<BookResponse>> getAllReadingBooks(@AuthenticationPrincipal User user) {
         return new ResponseEntity<>(bookService.findAllReadingBooks(user), HttpStatus.OK);
     }
