@@ -48,7 +48,7 @@ const LibraryPage = () => {
                         className={`flex items-center justify-center transition-colors shrink-0 snap-start px-3 py-2 rounded-full border border-stone-400/50 text-xs font-semibold ${
                             selectedFilter === filterOption.value
                                 ? "bg-amber-950 text-white"
-                                : "bg-[#d3cabf] text-stone-800"
+                                : "bg-[#f7f1e9] text-stone-800"
                         }`}
                     >
                         {filterOption.label}
