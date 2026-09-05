@@ -4,6 +4,7 @@ import { bookService } from "../services/bookService";
 import type { BookResponse, ReadingStatus } from "../schemas/book";
 import Book from "../components/Book";
 import { Trash2 } from "lucide-react";
+import DeleteBookModal from "../components/DeleteBookModal";
 
 const filterOptions = [
     { label: "Todos", value: "" },
@@ -128,6 +129,8 @@ const LibraryPage = () => {
                     )}
                 </div>
             )}
+
+            <DeleteBookModal />
 
             <MobileNav />
         </div>
