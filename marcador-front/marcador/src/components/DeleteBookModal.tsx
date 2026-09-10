@@ -1,6 +1,15 @@
 import { Trash2 } from "lucide-react";
 
-const DeleteBookModal = () => {
+interface DeleteBookModalProps {
+    isOpen: boolean;
+    onClose: () => void;
+    onConfirm: () => void;
+}
+
+
+const DeleteBookModal = ({ isOpen, onClose, onConfirm }: DeleteBookModalProps) => {
+    if (!isOpen) return null;
+
     return (
         <div className="fixed inset-0 bg-black/20 flex items-center justify-center">
             <div className="flex flex-col gap-2 bg-[#fcf9f5] w-[320px] p-6 rounded-2xl shadow-xl border text-center border-stone-300/40">
@@ -14,12 +23,15 @@ const DeleteBookModal = () => {
 
                 <div className="flex justify-between gap-2">
                     <button 
-                        className="px-4 py-3 rounded-lg w-full bg-[#f5f0ec] border border-stone-400/50 text-stone-800 font-semibold text-sm hover:cursor-pointer">
+                        className="px-4 py-3 rounded-lg w-full bg-[#f5f0ec] border border-stone-400/50 text-stone-800 font-semibold text-sm hover:cursor-pointer"
+                        onClick={onClose}>
                         Cancelar
                     </button>
                     
                     <button 
-                        className="px-4 py-3 rounded-lg w-full bg-[#5c1f2e] text-white font-semibold text-sm hover:cursor-pointer">
+                        className="px-4 py-3 rounded-lg w-full bg-[#5c1f2e] text-white font-semibold text-sm hover:cursor-pointer"
+                        onClick={onConfirm}
+                        >
                         Apagar
                     </button>
                 </div>
