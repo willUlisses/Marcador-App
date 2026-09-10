@@ -3,8 +3,9 @@ import MobileNav from "../components/MobileNav";
 import { bookService } from "../services/bookService";
 import type { BookResponse, ReadingStatus } from "../schemas/book";
 import Book from "../components/Book";
-import { Trash2 } from "lucide-react";
+import { Trash2, Plus } from "lucide-react";
 import DeleteBookModal from "../components/DeleteBookModal";
+import CreateBookModal from "../components/CreateBookModal";
 
 const filterOptions = [
     { label: "Todos", value: "" },
@@ -18,6 +19,7 @@ const LibraryPage = () => {
     const [selectedFilter, setSelectedFilter] = useState<ReadingStatus | "">("");
     const [books, setBooks] = useState<BookResponse[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [isCreateOpen, setIsCreateOpen] = useState<boolean>(true);
 
     const [bookToDeleteId, setBookToDeleteId] = useState<number | null>(null);
 
@@ -53,7 +55,17 @@ const LibraryPage = () => {
  
     return (
         <div className="flex flex-col w-full min-h-screen gap-2 px-4 pt-4 bg-[#fcf9f5] overflow-hidden pb-24">
-            <h1 className="font-lora text-2xl font-extrabold text-stone-800">Minha Biblioteca</h1>
+            <div className="flex justify-between items-center">
+                <h1 className="font-lora text-2xl font-extrabold text-stone-800">Minha Biblioteca</h1>
+                
+                <button 
+                    onClick={() => {}}
+                    className="text-white bg-linear-to-br from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-lg p-1.5 hover:cursor-pointer flex items-center gap-2">
+                    
+                    <Plus size={18}/>
+                    <span className="font-medium text-sm">Novo Livro</span>
+                </button>
+            </div>
 
             <div className="flex gap-2 overflow-x-auto snap-x snap-mandatory scrollbar-none py-2 px-1">
                 {filterOptions.map((filterOption) => (
@@ -149,6 +161,10 @@ const LibraryPage = () => {
                 isOpen={bookToDeleteId !== null}
                 onClose={() => setBookToDeleteId(null)}
                 onConfirm={handleConfirmDelete}
+            />
+
+            <CreateBookModal 
+                isOpen={isCreateOpen}
             />
 
             <MobileNav />
