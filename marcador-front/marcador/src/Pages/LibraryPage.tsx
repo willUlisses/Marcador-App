@@ -19,6 +19,8 @@ const LibraryPage = () => {
     const [books, setBooks] = useState<BookResponse[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
+    const [bookToDeleteId, setBookToDeleteId] = useState<number | null>(null);
+
     useEffect(() => {
         async function fetchBooks() {
             setIsLoading(true);
@@ -36,6 +38,19 @@ const LibraryPage = () => {
         fetchBooks();
     }, [selectedFilter]);
 
+    async function handleConfirmDelete() {
+        if (!bookToDeleteId) return;
+
+        try {
+            await bookService.delete(bookToDeleteId);
+            setBooks((prevBooks) => prevBooks.filter((book) => book.id !== bookToDeleteId));
+        } catch (error) {
+            console.error("Erro ao apagar livro:", error);
+        } finally {
+            setBookToDeleteId(null);
+        }
+    }
+ 
     return (
         <div className="flex flex-col w-full min-h-screen gap-2 px-4 pt-4 bg-[#fcf9f5] overflow-hidden pb-24">
             <h1 className="font-lora text-2xl font-extrabold text-stone-800">Minha Biblioteca</h1>
@@ -98,21 +113,21 @@ const LibraryPage = () => {
 
                                             <button
                                                 type="button"
-                                                onClick={() => bookService.delete(book.id)}
+                                                onClick={() => setBookToDeleteId(book.id)}
                                                 className="border-stone-400/50 border text-stone-600 px-1 py-1 rounded-lg font-semibold text-xs hover:bg-red-800 hover:text-white transition-colors duration-300"
                                             >
                                                 <Trash2 size={14} />
                                             </button>
                                         </div>
 
-                                        <div className="w-full h-1.25 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
+                                        <div className={`${book.status === "READING" ? "flex" : "hidden"} w-full h-1.25 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40`}>
                                             <div
                                                 className="h-full bg-[#99581b] rounded-full transition-all duration-500 ease-out"
                                                 style={{ width: `${percentage}%` }}
                                             />
                                         </div>
 
-                                        <div className="flex justify-between items-center">
+                                        <div className={`${book.status === "READING" ? "flex" : "hidden"} justify-between items-center`}>
                                             <span 
                                                 className="text-[10px] font-semibold text-stone-600"
                                                 >
@@ -130,7 +145,11 @@ const LibraryPage = () => {
                 </div>
             )}
 
-            <DeleteBookModal />
+            <DeleteBookModal
+                isOpen={bookToDeleteId !== null}
+                onClose={() => setBookToDeleteId(null)}
+                onConfirm={handleConfirmDelete}
+            />
 
             <MobileNav />
         </div>
