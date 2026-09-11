@@ -19,7 +19,7 @@ const LibraryPage = () => {
     const [selectedFilter, setSelectedFilter] = useState<ReadingStatus | "">("");
     const [books, setBooks] = useState<BookResponse[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const [isCreateOpen, setIsCreateOpen] = useState<boolean>(true);
+    const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
 
     const [bookToDeleteId, setBookToDeleteId] = useState<number | null>(null);
 
@@ -52,6 +52,7 @@ const LibraryPage = () => {
             setBookToDeleteId(null);
         }
     }
+
  
     return (
         <div className="flex flex-col w-full min-h-screen gap-2 px-4 pt-4 bg-[#fcf9f5] overflow-hidden pb-24">
@@ -59,7 +60,7 @@ const LibraryPage = () => {
                 <h1 className="font-lora text-2xl font-extrabold text-stone-800">Minha Biblioteca</h1>
                 
                 <button 
-                    onClick={() => {}}
+                    onClick={() => {setIsCreateOpen(true)}}
                     className="text-white bg-linear-to-br from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-lg p-1.5 hover:cursor-pointer flex items-center gap-2">
                     
                     <Plus size={18}/>
@@ -165,6 +166,13 @@ const LibraryPage = () => {
 
             <CreateBookModal 
                 isOpen={isCreateOpen}
+                onClose={() => { setIsCreateOpen(false)}}
+                onSuccess={(newBook) => {
+                    if (selectedFilter === "" || newBook.status === selectedFilter) {
+                        setBooks((prev) => [newBook, ...prev].sort((a, b) => a.id - b.id));
+                    }
+                    setIsCreateOpen(false);
+                }}
             />
 
             <MobileNav />
