@@ -15,41 +15,65 @@ const bookColours: string[] = ["#7A3B2E", "#5C1F2E", "#4B5A3F", "#3D3020", "#4A3
 const bookBorderColours: string[] = ["#613029", "#401521", "#394733", "#2F241A", "#373155", "#6B5D4F", "#574E44", "#2E4A3A"]
 
 const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opinion }: BookProps) => {
+    const progress = totalPages ? Math.round((currentPage / totalPages) * 100) : 0;
+
     return (
         <div
             style={{ 
                 backgroundColor: bookColours[id % bookColours.length], 
                 borderLeftColor: bookBorderColours[id % bookBorderColours.length] 
             }}
-            className="flex flex-col hover:cursor-pointer justify-evenly items-center w-26 h-44 px-2 border-l-[5px] rounded-lg shadow-lg shadow-stone-800/15">
+            className="flex flex-col hover:cursor-pointer gap-4 items-center w-28 h-44 px-2 py-3 border-l-[5px] rounded-lg shadow-lg shadow-stone-800/15">
                 
             <span
-                className={`text-[11px] font-bold tracking-widest text-center ${status == "COMPLETED" ? "rounded-full bg-green-700 p-1" : "bg-amber-400 rounded-md px-2 text-center"}`}>
-                {status === "COMPLETED" ? <Check className="text-white" size={14} strokeWidth={4} /> : status.replace("_", " ")}
+                className={`flex justify-center items-center text-[10px] font-bold tracking-widest text-center ${status == "COMPLETED" ? "rounded-full bg-green-700 p-1" : "rounded-md px-2 py-1 text-center text-stone-800 bg-amber-400"}`}>
+                {status === "COMPLETED" ? <Check className="text-white" size={14} strokeWidth={4} /> : getBookLabel(status)}
             </span>
-
+            
             <div className="flex flex-col gap-2">
-                <hr className="border-stone-300 w-[70%] self-center"/>
+                <hr className="border-stone-300 w-[85%] self-center"/>
 
-                <div className="flex gap-0.5">
+                {<div className="flex gap-0.5">
                     {Array.from({ length: 5 }).map((_, index) => (
                         <Star
                             key={index}
                             className={`size-3 text-yellow-400 ${index < rating ? "fill-amber-400" : ""}`}
                         />
                     ))}
-                </div>
+                </div>}
 
-                <hr className="border-stone-300 w-[70%] self-center"/>
+                <hr className="border-stone-300 w-[85%] self-center"/>
             </div>
 
             <h2 className="line-clamp-2 text-[12px] text-white font-lora font-bold text-center tracking-wider leading-tight">{title}</h2>
 
-            <span className="text-white text-sm text-center bg-[#1a1a18a6] rounded-md p-1">
-                {currentPage} / {totalPages}
-            </span>
+            {status == "READING" && <div className="text-white text-[11px] rounded-md  w-full">
+                <div className="flex justify-between items-center mb-1">
+                    <span>p. {currentPage} / {totalPages}</span>
+                    <span className="text-yellow-400 font-semibold">{progress}%</span>
+                </div>
+                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
+                    <div
+                        className="h-full bg-yellow-400 rounded-full"
+                        style={{ width: `${progress}%` }}
+                    />
+                </div>
+            </div>}
         </div>
     )
+}
+
+const getBookLabel = (status: string) => {
+    switch (status) {
+        case "READING":
+            return "LENDO";
+        case "COMPLETED":
+            return "LIDO";
+        case "DROPPED":
+            return "PAUSADO";
+        case "WANT_TO_READ":
+            return "NA FILA";
+    }
 }
 
 export default Book
