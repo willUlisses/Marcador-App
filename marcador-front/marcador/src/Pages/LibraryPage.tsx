@@ -61,9 +61,9 @@ const LibraryPage = () => {
                 
                 <button 
                     onClick={() => {setIsCreateOpen(true)}}
-                    className="text-white bg-linear-to-br from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-lg p-1.5 hover:cursor-pointer flex items-center gap-2">
+                    className="text-white bg-linear-to-br from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-xl py-1.5 px-2 hover:cursor-pointer flex items-center justify-center gap-2">
                     
-                    <Plus size={18}/>
+                    <Plus size={18} strokeWidth={2.5}/>
                     <span className="font-medium text-sm">Novo Livro</span>
                 </button>
             </div>
@@ -103,7 +103,7 @@ const LibraryPage = () => {
                                 : 0;
 
                             return (
-                                <div key={book.id} className="flex flex-col gap-1 min-w-0 w-26 overflow-hidden">
+                                <div key={book.id} className="flex flex-col gap-1 min-w-0 w-28 overflow-hidden">
                                     <Book
                                         id={book.id}
                                         title={book.title}
