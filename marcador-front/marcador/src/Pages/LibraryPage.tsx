@@ -6,6 +6,7 @@ import Book from "../components/Book";
 import { Trash2, Plus } from "lucide-react";
 import DeleteBookModal from "../components/DeleteBookModal";
 import CreateBookModal from "../components/CreateBookModal";
+import EditBookModal from "../components/EditBookModal";
 
 const filterOptions = [
     { label: "Todos", value: "" },
@@ -20,6 +21,7 @@ const LibraryPage = () => {
     const [books, setBooks] = useState<BookResponse[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [isCreateOpen, setIsCreateOpen] = useState<boolean>(false);
+    const [selectedBook, setSelectedBook] = useState<BookResponse | null>(null);
 
     const [bookToDeleteId, setBookToDeleteId] = useState<number | null>(null);
 
@@ -51,6 +53,10 @@ const LibraryPage = () => {
         } finally {
             setBookToDeleteId(null);
         }
+    }
+
+    const handleCloseBookModal = () => {
+        setSelectedBook(null);
     }
 
  
@@ -112,7 +118,11 @@ const LibraryPage = () => {
                                         currentPage={book.currentPage}
                                         totalPages={book.totalPages}
                                         rating={book.rating}
-                                        opinion={book.opinion} />
+                                        opinion={book.opinion} 
+                                        onClick={() => {
+                                            setSelectedBook(book);
+                                        }}
+                                    />
 
                                     <div className="flex flex-col flex-1 gap-1">
                                         <span className="font-lora font-bold text-[13px] truncate w-full">
@@ -172,6 +182,18 @@ const LibraryPage = () => {
                         setBooks((prev) => [newBook, ...prev].sort((a, b) => a.id - b.id));
                     }
                     setIsCreateOpen(false);
+                }}
+            />
+
+            <EditBookModal
+                selectedBook={selectedBook}
+                onClose={handleCloseBookModal}
+                onSuccess={(updatedBook) => {
+                    setBooks((prevBooks) => 
+                        prevBooks.map((book) =>
+                            book.id === updatedBook.id ? updatedBook : book
+                        )
+                    );
                 }}
             />
 
