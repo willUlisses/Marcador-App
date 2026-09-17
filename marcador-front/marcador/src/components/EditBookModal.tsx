@@ -4,9 +4,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bookService } from "../services/bookService";
 import type { BookResponse, EditBookBody } from "../schemas/book";
-import { Check, Plus, Star, X, } from "lucide-react";
+import { Check, Plus, Star, X, BookOpenCheck } from "lucide-react";
 import Input from "./Input";
 import Textarea from "./Textarea";
+import ReadingSessionModal from "./ReadingSessionModal";
 
 export const GENRES = {
     FANTASY: "Fantasia",
@@ -47,27 +48,27 @@ export const statusSchema = z.enum(
 
 export const editBookSchema = z.object({
     title: z.string().trim().nonempty("O título é obrigatório"),
-    
+
     genres: z
-    .array(genreSchema) 
-    .min(1, "Você deve escolher ao menos um gênero")
-    .refine(
-        (genres) => new Set(genres).size === genres.length,
-        "Gêneros duplicados não são permitidos"
-    ),
+        .array(genreSchema)
+        .min(1, "Você deve escolher ao menos um gênero")
+        .refine(
+            (genres) => new Set(genres).size === genres.length,
+            "Gêneros duplicados não são permitidos"
+        ),
 
     rating: z.coerce.number()
-    .int("A nota deve ser um número inteiro")
-    .min(0, "A nota mínima é 0")
-    .max(5, "A nota máxima é 5")
-    .optional(),
+        .int("A nota deve ser um número inteiro")
+        .min(0, "A nota mínima é 0")
+        .max(5, "A nota máxima é 5")
+        .optional(),
 
     totalPages: z.coerce.number()
-    .int("O número de páginas deve ser um número inteiro")
-    .positive("O número total de páginas deve ser maior que 0"),
+        .int("O número de páginas deve ser um número inteiro")
+        .positive("O número total de páginas deve ser maior que 0"),
 
     status: z.array(statusSchema)
-    .max(1, "Selecione apenas um status"),
+        .max(1, "Selecione apenas um status"),
 
     opinion: z.string().optional(),
 });
@@ -79,16 +80,17 @@ type EditBookFormOutput = z.output<typeof editBookSchema>;
 interface EditBookModalProps {
     selectedBook: BookResponse | null;
     onClose: () => void;
-    onSuccess: (updatedBook : BookResponse) => void;
+    onSuccess: (updatedBook: BookResponse) => void;
 }
 
 const ANIMATION_DURATION = 300;
 
 const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps) => {
-    
+
     const [shouldRender, setShouldRender] = useState<boolean>(false);
     const [isVisible, setIsVisible] = useState<boolean>(false);
     const [isGenresOpen, setIsGenresOpen] = useState<boolean>(false);
+    const [isReadingSessionOpen, setIsReadingSessionOpen] = useState<boolean>(false);
 
     const {
         register,
@@ -137,18 +139,18 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
     const toggleGenre = (genreKey: keyof typeof GENRES) => {
         const current = selectedGenres || [];
         const updated = current.includes(genreKey)
-        ? current.filter((g) => g !== genreKey)
-        : [...current, genreKey];
-        
+            ? current.filter((g) => g !== genreKey)
+            : [...current, genreKey];
+
         setValue("genres", updated, { shouldValidate: true });
     };
 
     const toggleStatus = (statusKey: keyof typeof READING_STATUS) => {
         const current = selectedStatus || [];
-        const updated = current.includes(statusKey) 
-        ? []
-        : [statusKey]; 
-        
+        const updated = current.includes(statusKey)
+            ? []
+            : [statusKey];
+
         setValue("status", updated, { shouldValidate: true });
     };
 
@@ -156,7 +158,7 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
         const newRating = selectedRating === starIndex ? 0 : starIndex;
         setValue("rating", newRating, { shouldValidate: true });
     };
-    
+
     const handleClose = () => {
         reset();
         onClose();
@@ -185,25 +187,23 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
     }, [selectedBook]);
 
     const percentRead = selectedBook
-    ? Math.min(100, Math.round((selectedBook.currentPage / selectedBook.totalPages) * 100))
-    : 0;
+        ? Math.min(100, Math.round((selectedBook.currentPage / selectedBook.totalPages) * 100))
+        : 0;
 
-     if (!shouldRender || !selectedBook) return null;
+    if (!shouldRender || !selectedBook) return null;
 
-     return (
-        <div 
+    return (
+        <div
             onClick={handleClose}
-            className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end justify-center py-16 transition-opacity duration-300 ease-out ${
-                isVisible ? "opacity-100" : "opacity-0"
-            }`}
-        >
-            <div 
-                onClick={(e) => e.stopPropagation()}
-                className={`bg-[#fcf9f5] w-full max-w-lg rounded-t-4xl shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto transition-transform duration-300 ease-out ${
-                    isVisible ? "translate-y-0" : "translate-y-full"
+            className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end justify-center py-16 transition-opacity duration-300 ease-out ${isVisible ? "opacity-100" : "opacity-0"
                 }`}
+        >
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className={`bg-[#fcf9f5] w-full max-w-lg rounded-t-4xl shadow-2xl flex flex-col max-h-[90vh] overflow-y-auto transition-transform duration-300 ease-out ${isVisible ? "translate-y-0" : "translate-y-full"
+                    }`}
             >
-                
+
                 <div className="sticky top-0 z-10 bg-[#fcf9f5] rounded-t-4xl px-6 pt-6 pb-4 flex flex-col gap-2">
 
                     <div className="w-12 h-1.5 bg-stone-300 rounded-full self-center" />
@@ -225,18 +225,30 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                         >
                             <X size={18} />
                         </button>
-                    </div>  
+                    </div>
                 </div>
 
 
-                <form 
+
+                <form
                     onSubmit={handleSubmit(handlePatchBook)}
                     className="flex flex-col gap-2 px-5 pb-8"
                 >
 
+                    {selectedBook.status === "READING" && (
+                        <button
+                            className="text-white bg-linear-to-r from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-xl py-3 hover:cursor-pointer flex items-center justify-center gap-2"
+                            onClick={() => setIsReadingSessionOpen(true)}
+                        >
+                            <BookOpenCheck size={20} />
+                            <span className="font-medium">Registrar Sessão de Leitura</span>
+                        </button>
+                    )}
+
+
                     <div className="flex flex-col gap-1.5">
                         <div className="flex justify-between items-center">
-                            <span className="text-xs font-semibold text-stone-500 tracking-wide">{selectedBook.currentPage} Páginas Lidas</span>  
+                            <span className="text-xs font-semibold text-stone-500 tracking-wide">{selectedBook.currentPage} Páginas Lidas</span>
                             <span className="text-[11.5px] font-bold font-source tracking-widest text-amber-900">{percentRead}%</span>
                         </div>
                         <div className="w-full h-2 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
@@ -267,12 +279,12 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                         </div>
                     </div>
 
-                    <Input      
-                        label="TÍTULO" 
+                    <Input
+                        label="TÍTULO"
                         className="text-sm py-3.5"
-                        placeholder="Nome do livro" 
-                        {...register("title")} 
-                        error={errors.title?.message} 
+                        placeholder="Nome do livro"
+                        {...register("title")}
+                        error={errors.title?.message}
                         type="text"
                     />
 
@@ -313,14 +325,14 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
 
                         <div className={`flex flex-wrap gap-1.5 ${isGenresOpen ? "" : "hidden"}`}>
                             {Object.entries(GENRES).map(([key, value]) => (
-                                <button 
+                                <button
                                     key={key}
                                     type="button"
                                     onClick={() => toggleGenre(key as keyof typeof GENRES)}
                                     className={`
                                         flex px-4 py-1.5 rounded-full text-xs font-semibold transition-colors items-center justify-center gap-1.5
                                         ${selectedGenres.includes(key as keyof typeof GENRES)
-                                            ? "bg-amber-900 text-white shadow-sm" 
+                                            ? "bg-amber-900 text-white shadow-sm"
                                             : "bg-[#f3f0ed] text-stone-700 hover:bg-stone-300 border border-stone-400/50"
                                         }
                                     `}
@@ -346,16 +358,16 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                             {Object.entries(READING_STATUS).map(([key, value]) => {
                                 const isSelected = selectedStatus.includes(key as keyof typeof READING_STATUS);
                                 return (
-                                    <button 
+                                    <button
                                         key={key}
                                         type="button"
                                         onClick={() => toggleStatus(key as keyof typeof READING_STATUS)}
                                         className={`
                                         px-3 py-2.5 rounded-xl text-xs font-semibold transition-colors flex items-center justify-center gap-1.5
                                         ${isSelected
-                                            ? `${statusColours[key as keyof typeof READING_STATUS]} shadow-sm`
-                                            : "bg-[#f3f0ed] text-stone-700 border border-stone-500/50 hover:bg-stone-300"
-                                        }
+                                                ? `${statusColours[key as keyof typeof READING_STATUS]} shadow-sm`
+                                                : "bg-[#f3f0ed] text-stone-700 border border-stone-500/50 hover:bg-stone-300"
+                                            }
                                     `}
                                     >
                                         {value}
@@ -381,15 +393,22 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                         rows={4}
                     />
 
-                    <button 
-                        type="submit" 
+                    <button
+                        type="submit"
                         className="flex gap-3 items-center justify-center w-full mt-2 py-3 bg-linear-to-r from-[#4e231a] to-[#995b31] text-white font-semibold rounded-2xl transition-transform hover:scale-101 hover:cursor-pointer active:scale-99">
                         Salvar
-                        <Check size={20}/>
+                        <Check size={20} />
                     </button>
                 </form>
 
+                <ReadingSessionModal
+                    isOpen={isReadingSessionOpen}
+                    selectedBook={selectedBook}
+                    onClose={() => setIsReadingSessionOpen(false)}
+                    onSuccess={() => { setIsReadingSessionOpen(false) }}
+                />
             </div>
+
         </div>
     );
 };
