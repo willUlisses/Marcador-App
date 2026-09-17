@@ -1,5 +1,5 @@
 import { api } from "./api";
-import type { BookResponse, CreateBookBody, PatchBookBody, ReadingStatus } from "../schemas/book";
+import type { BookResponse, CreateBookBody, EditBookBody, ReadingStatus } from "../schemas/book";
 
 export const bookService = {
     create: (body: CreateBookBody) => api.post<BookResponse>("/books", body),
@@ -7,6 +7,6 @@ export const bookService = {
     getAllReadingBooks: () => api.get<BookResponse[]>("/books/reading"),
     getAllCompletedBooks: () => api.get<BookResponse[]>("/books/recent"),
     getBooksByStatus: (status?: ReadingStatus) => api.get<BookResponse[]>(`/books/filter`, { params: { status } }),
-    patch: (body: PatchBookBody, id: number) => api.patch<BookResponse>(`/books/${id}`, body),
+    patch: (body: EditBookBody, id: number) => api.patch<BookResponse>(`/books/${id}`, body),
     delete: (id: number) => api.delete(`/books/${id}`)
 }
