@@ -16,13 +16,13 @@ export interface CreateBookBody {
     totalPages: number
 }
 
-export interface PatchBookBody {
+export interface EditBookBody {
     title?: string,
     rating?: number,
     genres?: string[],
     currentPage?: number,
     totalPages?: number,
-    readingStatus?: "QUERO_LER" | "LENDO" | "COMPLETADO" | "ABANDONADO",
+    status?: string,
     opinion?: string
 }
 
