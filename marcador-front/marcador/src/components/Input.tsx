@@ -24,7 +24,7 @@ const Input = ({
     return (
       <div className={`flex flex-col gap-1.5 w-full ${containerClassName}`}>
         {label && (
-          <label htmlFor={inputId} className="text-[11.5px] font-semibold font-source tracking-widest text-stone-700">
+          <label htmlFor={inputId} className="text-[11px] font-bold tracking-widest text-stone-700">
             {label}
           </label>
         )}
@@ -41,7 +41,7 @@ const Input = ({
             id={inputId}
             aria-invalid={!!error}
             className={`
-              w-full bg-white  border border-stone-400/50 rounded-xl py-3 text-md text-stone-800 
+              w-full bg-white border border-stone-400/50 rounded-xl py-3 text-md text-stone-800 
               placeholder:text-stone-400 outline-none transition-all shadow-xs
               focus:border-amber-800 focus:ring-1 focus:ring-amber-800
               ${leftIcon ? "pl-10" : "px-3"}

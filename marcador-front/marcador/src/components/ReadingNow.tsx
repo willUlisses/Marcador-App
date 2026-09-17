@@ -77,10 +77,10 @@ const ReadingNow = ({ books }: { books: BookResponse[] }) => {
                 </div>
 
                 <div className="w-full h-2 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
-                <div
-                    className="h-full bg-[#99581b] rounded-full transition-all duration-500 ease-out"
-                    style={{ width: `${percentRead}%` }}
-                />
+                    <div
+                        className="h-full bg-[#99581b] rounded-full transition-all duration-500 ease-out"
+                        style={{ width: `${percentRead}%` }}
+                    />
                 </div>
             </div>
             </div>

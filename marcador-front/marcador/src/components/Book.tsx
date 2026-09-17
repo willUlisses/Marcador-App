@@ -9,16 +9,18 @@ interface BookProps {
     totalPages: number;
     rating: number;
     opinion: string;
+    onClick?: () => void;
 }
 
 const bookColours: string[] = ["#7A3B2E", "#5C1F2E", "#4B5A3F", "#3D3020", "#4A3D6B", "#8A7562", "#6B5D4F", "#2E4A3A"];
 const bookBorderColours: string[] = ["#613029", "#401521", "#394733", "#2F241A", "#373155", "#6B5D4F", "#574E44", "#2E4A3A"]
 
-const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opinion }: BookProps) => {
+const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opinion, onClick }: BookProps) => {
     const progress = totalPages ? Math.round((currentPage / totalPages) * 100) : 0;
 
     return (
         <div
+            onClick={onClick}
             style={{ 
                 backgroundColor: bookColours[id % bookColours.length], 
                 borderLeftColor: bookBorderColours[id % bookBorderColours.length] 
@@ -47,16 +49,10 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
 
             <h2 className="line-clamp-2 text-[12px] text-white font-lora font-bold text-center tracking-wider leading-tight">{title}</h2>
 
-            {status == "READING" && <div className="text-white text-[11px] rounded-md  w-full">
-                <div className="flex justify-between items-center mb-1">
+            {status == "READING" && <div className="text-white text-[11px] rounded-md mt-4 w-full">
+                <div className="flex justify-between items-center">
                     <span>p. {currentPage} / {totalPages}</span>
                     <span className="text-yellow-400 font-semibold">{progress}%</span>
-                </div>
-                <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden">
-                    <div
-                        className="h-full bg-yellow-400 rounded-full"
-                        style={{ width: `${progress}%` }}
-                    />
                 </div>
             </div>}
         </div>
