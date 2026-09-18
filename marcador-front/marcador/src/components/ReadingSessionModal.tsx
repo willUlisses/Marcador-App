@@ -79,7 +79,8 @@ const ReadingSessionModal = ({ isOpen, selectedBook, onClose, onSuccess }: Readi
 
     return (
             <div 
-            className={`fixed inset-0 z-50 bg-black/50 backdrop-blur flex items-end justify-center transition-opacity duration-300 ease-out ${
+            onClick={handleClose}
+            className={`fixed inset-0 z-60 bg-black/50 backdrop-blur flex items-end justify-center transition-opacity duration-300 ease-out ${
                 isVisible ? "opacity-100" : "opacity-0"
             }`}>
                 <div 
@@ -142,7 +143,7 @@ const ReadingSessionModal = ({ isOpen, selectedBook, onClose, onSuccess }: Readi
 
                 <form
                     onSubmit={handleSubmit(handlePatchBook)}
-                    className="flex flex-col gap-5 px-5 pb-8">
+                    className="flex flex-col gap-5 px-5 mb-12">
 
                     <Input
                         label="PÁGINA ATUAL"

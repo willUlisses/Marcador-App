@@ -92,6 +92,8 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
     const [isGenresOpen, setIsGenresOpen] = useState<boolean>(false);
     const [isReadingSessionOpen, setIsReadingSessionOpen] = useState<boolean>(false);
 
+    const [activeBook, setActiveBook] = useState<BookResponse | null>(null);
+
     const {
         register,
         handleSubmit,
@@ -112,7 +114,7 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
     });
 
     const handlePatchBook = async (data: EditBookFormOutput) => {
-        if (!selectedBook) return;
+        if (!activeBook) return;
 
         const body: EditBookBody = {
             title: data.title,
@@ -123,7 +125,7 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
             opinion: data.opinion,
         }
         try {
-            const updatedBook = await bookService.patch(body, selectedBook.id);
+            const updatedBook = await bookService.patch(body, activeBook.id);
             reset();
             onSuccess(updatedBook);
             onClose();
@@ -166,6 +168,8 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
 
     useEffect(() => {
         if (selectedBook) {
+            setActiveBook(selectedBook);
+            
             reset({
                 title: selectedBook.title,
                 totalPages: selectedBook.totalPages,
@@ -184,15 +188,16 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
             const timeout = setTimeout(() => setShouldRender(false), ANIMATION_DURATION);
             return () => clearTimeout(timeout);
         }
-    }, [selectedBook]);
+    }, [selectedBook, reset]);
 
-    const percentRead = selectedBook
-        ? Math.min(100, Math.round((selectedBook.currentPage / selectedBook.totalPages) * 100))
+    const percentRead = activeBook
+        ? Math.min(100, Math.round((activeBook.currentPage / activeBook.totalPages) * 100))
         : 0;
 
-    if (!shouldRender || !selectedBook) return null;
+    if (!shouldRender || !activeBook) return null;
 
     return (
+        <>
         <div
             onClick={handleClose}
             className={`fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-end justify-center py-16 transition-opacity duration-300 ease-out ${isVisible ? "opacity-100" : "opacity-0"
@@ -235,8 +240,9 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                     className="flex flex-col gap-2 px-5 pb-8"
                 >
 
-                    {selectedBook.status === "READING" && (
+                    {activeBook.status === "READING" && (
                         <button
+                            type="button"
                             className="text-white bg-linear-to-r from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-xl py-3 hover:cursor-pointer flex items-center justify-center gap-2"
                             onClick={() => setIsReadingSessionOpen(true)}
                         >
@@ -248,7 +254,7 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
 
                     <div className="flex flex-col gap-1.5">
                         <div className="flex justify-between items-center">
-                            <span className="text-xs font-semibold text-stone-500 tracking-wide">{selectedBook.currentPage} Páginas Lidas</span>
+                            <span className="text-xs font-semibold text-stone-500 tracking-wide">{activeBook.currentPage} Páginas Lidas</span>
                             <span className="text-[11.5px] font-bold font-source tracking-widest text-amber-900">{percentRead}%</span>
                         </div>
                         <div className="w-full h-2 bg-[#c9bfa9] rounded-full overflow-hidden border border-stone-300/40">
@@ -401,15 +407,20 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                     </button>
                 </form>
 
-                <ReadingSessionModal
-                    isOpen={isReadingSessionOpen}
-                    selectedBook={selectedBook}
-                    onClose={() => setIsReadingSessionOpen(false)}
-                    onSuccess={() => { setIsReadingSessionOpen(false) }}
-                />
             </div>
-
         </div>
+            <ReadingSessionModal
+                isOpen={isReadingSessionOpen}
+                selectedBook={activeBook}
+                onClose={() => setIsReadingSessionOpen(false)}
+                onSuccess={(updatedBook) => {
+                    setIsReadingSessionOpen(false);
+                    setActiveBook(updatedBook);
+                    onSuccess(updatedBook);
+                }}
+            />
+
+        </>
     );
 };
 
