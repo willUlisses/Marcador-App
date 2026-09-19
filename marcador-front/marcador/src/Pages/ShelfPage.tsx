@@ -105,7 +105,8 @@ const ShelfPage = () => {
                     <div 
                     
                     className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-none py-2 px-1">
-                        {completedBooks.map((book) => (
+                        {completedBooks && completedBooks.length > 0 ? (
+                            completedBooks.map((book) => (
                             <div key={book.id} className="shrink-0 snap-start">
                                 <Book
                                     id={book.id}
@@ -118,7 +119,13 @@ const ShelfPage = () => {
                                     opinion={book.opinion}
                                 />
                             </div>
-                        ))}
+                        ))
+                        ) : (
+                            <div className="w-full max-w-xl bg-[#e6decf] border border-stone-400/50 rounded-3xl px-4 py-16 text-center text-stone-600">
+                                <h1 className="text-lg font-lora">Você ainda não terminou nenhum livro</h1>
+                            </div>
+                        )}
+                        
                     </div>
                 </section>
             </main>

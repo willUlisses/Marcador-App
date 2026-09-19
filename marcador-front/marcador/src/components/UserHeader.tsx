@@ -12,8 +12,9 @@ const UserHeader = (props: UserHeaderProps) => {
     return(
         <header className="w-full text-white flex flex-col items-center justify-center py-8 gap-4 bg-linear-to-br from-[#7A3B2E] via-[#7A3B2E] via-55% to-[#bd7a4e]">
             <div className="flex flex-col items-center">
-                <span className="text-stone-300/90 text-sm">Boa tarde,</span>
-                <h2 className="text-white font-extrabold font-lora tracking-wide text-3xl">{props.username}</h2>
+                <span className="text-stone-300/90 text-sm ">
+                    Olá <span className="text-white font-extrabold font-lora tracking-wide text-2xl">{props.username}</span>
+                </span>
             </div>
 
             <div className="grid grid-cols-3 max-w-sm gap-3 w-full items-center px-3">
