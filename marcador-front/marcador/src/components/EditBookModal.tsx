@@ -243,7 +243,7 @@ const EditBookModal = ({ selectedBook, onClose, onSuccess }: EditBookModalProps)
                     {activeBook.status === "READING" && (
                         <button
                             type="button"
-                            className="text-white bg-linear-to-r from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-xl py-3 hover:cursor-pointer flex items-center justify-center gap-2"
+                            className="text-white bg-linear-to-r mb-2 from-[#7A3B2E] via-[#7A3B2E] via-45% to-[#bd7a4e] border border-stone-400/50 rounded-2xl shadow-lg py-3 hover:cursor-pointer flex items-center justify-center gap-2"
                             onClick={() => setIsReadingSessionOpen(true)}
                         >
                             <BookOpenCheck size={20} />
