@@ -2,14 +2,17 @@ package br.com.will.marcador_api.repository;
 
 import br.com.will.marcador_api.entities.Book;
 import br.com.will.marcador_api.entities.enums.ReadingStatus;
+import br.com.will.marcador_api.repository.projections.GenreCountProjection;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("SELECT b FROM Book b LEFT JOIN FETCH b.genres WHERE b.user.id = :userId")
@@ -40,5 +43,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
                 AND (:status IS NULL OR b.status = :status)
     """)
     List<Book> findBooksWithFilter(@Param("userId") Long userId, @Param("status") ReadingStatus status);
+
+    @Query(value = """
+        SELECT bg.genre AS genre, COUNT(*) AS cnt
+        FROM tb_book_genres bg
+        JOIN tb_books b ON b.id = bg.book_id
+        WHERE b.user_id = :userId
+        GROUP BY bg.genre
+        ORDER BY cnt DESC
+        LIMIT 1
+        """, nativeQuery = true)
+    List<GenreCountProjection> findMostReadGenre(@Param("userId") Long userId);
 
 }
