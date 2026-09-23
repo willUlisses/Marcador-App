@@ -36,6 +36,7 @@ const ShelfPage = () => {
 
                 const response = await bookService.getAllReadingBooks()
                 setBooks(response)
+                console.log(response)
             } catch (error) {
                 console.error("Erro ao buscar livros em leitura:", error)
             } finally {
