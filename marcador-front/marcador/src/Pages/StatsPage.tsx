@@ -38,7 +38,7 @@ const StatsPage = () => {
     return (
         <div className="flex flex-col w-full min-h-screen gap-4 bg-[#fcf9f5] overflow-hidden pb-24">
             <header className="px-4 pt-8 pb-2">
-                <h1 className="font-lora text-2xl font-extrabold text-stone-800">
+                <h1 className="font-lora text-3xl font-extrabold text-stone-800">
                     Estatísticas
                 </h1>
                 <p className="text-xs text-stone-500 mt-0.5">
