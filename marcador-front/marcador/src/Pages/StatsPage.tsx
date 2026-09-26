@@ -4,6 +4,7 @@ import MobileNav from "../components/MobileNav";
 import { readingLogService } from "../services/readingLogService";
 import type { StatsResponse } from "../schemas/readingLog";
 import { GENRES } from "../components/EditBookModal";
+import ReadingGoal from "../components/ReadingGoal";
 
 const StatsPage = () => {
     const [stats, setStats] = useState<StatsResponse>({
@@ -46,6 +47,8 @@ const StatsPage = () => {
             </header>
 
             <main className="px-4 flex flex-col gap-4">
+                <ReadingGoal />
+
                 {isLoading ? (
                     <div className="w-full py-18 bg-[#F0E8D4]/60 animate-pulse rounded-3xl flex items-center justify-center text-stone-950 font-medium text-md">
                         Carregando estatísticas...
