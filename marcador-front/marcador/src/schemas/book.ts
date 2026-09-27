@@ -26,4 +26,16 @@ export interface EditBookBody {
     opinion?: string
 }
 
+export interface MonthlyBookCount {
+    monthLabel: string;
+    monthNumber: number;
+    year: number;
+    booksCompleted: number;
+}
+
+export interface MonthlyBooksResponse {
+    currentYear: number;
+    months: MonthlyBookCount[];
+}
+
 export type ReadingStatus = 'WANT_TO_READ' | 'READING' | 'COMPLETED' | 'DROPPED';

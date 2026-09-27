@@ -6,6 +6,7 @@ import { userService } from "../services/userService";
 import type { StatsResponse, StreakResponse } from "../schemas/readingLog";
 import type { UserStatsResponse } from "../schemas/user";
 import ReadingGoal from "../components/ReadingGoal";
+import MonthlyBooks from "../components/MonthlyBooks";
 
 const StatsPage = () => {
     const [stats, setStats] = useState<StatsResponse>({
@@ -148,6 +149,7 @@ const StatsPage = () => {
                                 </div>
                             </div>
                         </div>
+                        <MonthlyBooks/> 
                     </>
                 )}
             </main>
