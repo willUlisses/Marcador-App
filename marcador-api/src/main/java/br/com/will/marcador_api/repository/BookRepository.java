@@ -55,4 +55,17 @@ public interface BookRepository extends JpaRepository<Book, Long> {
         """, nativeQuery = true)
     List<GenreCountProjection> findMostReadGenre(@Param("userId") Long userId);
 
+    @Query("""
+        SELECT b.completedAt
+        FROM Book b
+        WHERE b.user.id = :userId
+          AND b.status = 'COMPLETED'
+          AND b.completedAt BETWEEN :startDateTime AND :endDateTime
+        """)
+    List<LocalDateTime> findCompletedAtByUserAndDateRange(
+            @Param("userId") Long userId,
+            @Param("startDateTime") LocalDateTime startDateTime,
+            @Param("endDateTime") LocalDateTime endDateTime
+    );
+
 }
