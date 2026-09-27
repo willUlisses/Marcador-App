@@ -16,4 +16,7 @@ public interface ReadingLogRepository extends JpaRepository<ReadingLog, Long> {
     @Query("SELECT DISTINCT r.date FROM ReadingLog r WHERE r.user = :user ORDER BY r.date DESC")
     List<LocalDate> findDistinctDatesByUserOrderByDateDesc(@Param("user") User user);
 
+    @Query("SELECT COALESCE(SUM(r.pagesRead), 0) FROM ReadingLog r WHERE r.user = :user")
+    long sumPagesReadByUser(@Param("user") User user);
+
 }
