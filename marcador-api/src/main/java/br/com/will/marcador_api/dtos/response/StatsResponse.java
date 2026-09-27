@@ -4,5 +4,5 @@ public record StatsResponse(
         int pagesReadThisMonth,
         String mostReadGenre,
         double averagePagesPerDay,
-        int currentStreak
+        long totalPagesRead
 ) {}
