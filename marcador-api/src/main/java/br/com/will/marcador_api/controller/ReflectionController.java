@@ -29,13 +29,13 @@ public class ReflectionController {
 
     private final ReflectionService reflectionService;
 
-    @PostMapping("/{id}")
+    @PostMapping("/{bookId}")
     public ResponseEntity<BookWithReflectionsResponse> createReflection(
             @AuthenticationPrincipal User user,
-            @PathVariable("id") Long id,
+            @PathVariable("bookId") Long bookId,
             @RequestBody @Valid CreateReflectionBody body
     ) {
-        return new ResponseEntity<>(reflectionService.createReflection(user, id, body), HttpStatus.CREATED);
+        return new ResponseEntity<>(reflectionService.createReflection(user, bookId, body), HttpStatus.CREATED);
     }
 
     @PatchMapping("/{bookId}/{reflectionId}")
