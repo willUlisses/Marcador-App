@@ -3,9 +3,11 @@ package br.com.will.marcador_api.controller;
 import br.com.will.marcador_api.dtos.body.CreateBookBody;
 import br.com.will.marcador_api.dtos.body.PatchBookBody;
 import br.com.will.marcador_api.dtos.response.BookResponse;
+import br.com.will.marcador_api.dtos.response.MonthlyBooksResponse;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.entities.enums.ReadingStatus;
 import br.com.will.marcador_api.service.BookService;
+import br.com.will.marcador_api.service.MonthlyBooksService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,7 @@ import java.util.List;
 public class BookController {
 
     private final BookService bookService;
+    private final MonthlyBooksService  monthlyBooksService;
 
     @PostMapping()
     public ResponseEntity<BookResponse> createBook(@RequestBody @Valid CreateBookBody body, @AuthenticationPrincipal User user) {
@@ -68,6 +71,11 @@ public class BookController {
     public ResponseEntity<Void> deleteBook(@PathVariable("id") Long id, @AuthenticationPrincipal User user) {
         bookService.deleteBook(id, user);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/monthly")
+    public ResponseEntity<MonthlyBooksResponse> getMonthlyBooksRead(@AuthenticationPrincipal User user) {
+        return ResponseEntity.ok(monthlyBooksService.getMonthlyBooksRead(user));
     }
 
 
