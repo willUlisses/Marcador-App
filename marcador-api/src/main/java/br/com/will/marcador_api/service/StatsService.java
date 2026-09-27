@@ -31,9 +31,9 @@ public class StatsService {
         int pagesThisMonth = getPagesReadThisMonth(user, today);
         String mostReadGenre = getMostReadGenre(user);
         double averagePagesPerDay = getAveragePagesPerDay(user, today);
-        int streak = getCurrentStreak(user, today);
+        long totalPagesRead = readingLogRepository.sumPagesReadByUser(user);
 
-        return new StatsResponse(pagesThisMonth, mostReadGenre, averagePagesPerDay, streak);
+        return new StatsResponse(pagesThisMonth, mostReadGenre, averagePagesPerDay, totalPagesRead);
     }
 
     private int getPagesReadThisMonth(User user, LocalDate today) {
@@ -63,32 +63,5 @@ public class StatsService {
 
         double average = (double) totalPages / activeDays;
         return Math.round(average * 10) / 10.0;
-    }
-
-    private int getCurrentStreak(User user, LocalDate today) {
-        List<LocalDate> distinctDates = readingLogRepository.findDistinctDatesByUserOrderByDateDesc(user);
-
-        if (distinctDates.isEmpty()) return 0;
-
-        LocalDate expectedDate = today;
-
-        if (!distinctDates.getFirst().isEqual(today)) {
-            expectedDate = today.minusDays(1);
-            if (!distinctDates.getFirst().isEqual(expectedDate)) {
-                return 0;
-            }
-        }
-
-        int streak = 0;
-        for (LocalDate date : distinctDates) {
-            if (date.isEqual(expectedDate)) {
-                streak++;
-                expectedDate = expectedDate.minusDays(1);
-            } else if (date.isBefore(expectedDate)) {
-                break;
-            }
-        }
-
-        return streak;
     }
 }
