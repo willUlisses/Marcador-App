@@ -36,7 +36,6 @@ const ShelfPage = () => {
 
                 const response = await bookService.getAllReadingBooks()
                 setBooks(response)
-                console.log(response)
             } catch (error) {
                 console.error("Erro ao buscar livros em leitura:", error)
             } finally {
@@ -81,6 +80,8 @@ const ShelfPage = () => {
             />
 
             <main className="px-4 flex flex-col gap-3">
+                
+
                 <div>
                     <h1 className="font-lora text-xl mb-3 font-extrabold">Lendo Agora</h1>
                     {isLoading && (
