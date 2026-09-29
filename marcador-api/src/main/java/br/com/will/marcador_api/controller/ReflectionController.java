@@ -4,6 +4,7 @@ import br.com.will.marcador_api.dtos.body.CreateReflectionBody;
 import br.com.will.marcador_api.dtos.body.PatchReflectionBody;
 import br.com.will.marcador_api.dtos.response.BookWithReflectionsResponse;
 import br.com.will.marcador_api.dtos.response.ReflectionResponse;
+import br.com.will.marcador_api.dtos.response.UserReflectionResponse;
 import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.service.ReflectionService;
 import jakarta.validation.Valid;
@@ -58,6 +59,11 @@ public class ReflectionController {
             @PathVariable("id") Long id)
     {
         return new ResponseEntity<>(reflectionService.getBookReflections(user, id), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<UserReflectionResponse>> getAllUserReflections(@AuthenticationPrincipal User user) {
+        return new ResponseEntity<>(reflectionService.getAllUserReflections(user), HttpStatus.OK);
     }
 
     @DeleteMapping("/{bookId}/{reflectionId}")
