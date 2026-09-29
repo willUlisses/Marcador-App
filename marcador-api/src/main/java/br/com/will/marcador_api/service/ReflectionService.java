@@ -4,6 +4,7 @@ import br.com.will.marcador_api.dtos.body.CreateReflectionBody;
 import br.com.will.marcador_api.dtos.body.PatchReflectionBody;
 import br.com.will.marcador_api.dtos.response.BookWithReflectionsResponse;
 import br.com.will.marcador_api.dtos.response.ReflectionResponse;
+import br.com.will.marcador_api.dtos.response.UserReflectionResponse;
 import br.com.will.marcador_api.entities.Book;
 import br.com.will.marcador_api.entities.Reflection;
 import br.com.will.marcador_api.entities.User;
@@ -70,6 +71,14 @@ public class ReflectionService {
 
         return reflections.stream()
                 .map(ReflectionResponse::from)
+                .toList();
+    }
+
+    public List<UserReflectionResponse> getAllUserReflections(User user) {
+        List<Reflection> reflections = reflectionsRepository.findAllByUserId(user.getId());
+
+        return reflections.stream()
+                .map(UserReflectionResponse::from)
                 .toList();
     }
 
