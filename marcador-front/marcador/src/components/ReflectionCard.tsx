@@ -36,7 +36,7 @@ const ReflectionCard = ({ reflection, onEdit, onDelete }: ReflectionCardProps) =
             </div>
 
             {reflection.description && (
-                <p className="text-sm text-stone-700 leading-relaxed whitespace-pre-wrap">
+                <p className="text-sm text-stone-700 leading-relaxed line-clamp-4">
                     {reflection.description}
                 </p>
             )}
