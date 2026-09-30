@@ -10,10 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.time.Clock;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -31,10 +31,11 @@ class StatsServiceTest {
     @Mock
     private BookRepository bookRepository;
 
-    @InjectMocks
     private StatsService statsService;
 
     private static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
+
+    private static final LocalDate FIXED_TODAY = LocalDate.of(2025, 6, 15);
 
     private User user;
     private LocalDate today;
@@ -47,7 +48,10 @@ class StatsServiceTest {
         user = new User();
         user.setId(1L);
 
-        today = LocalDate.now(ZONE_ID);
+        Clock fixedClock = Clock.fixed(FIXED_TODAY.atStartOfDay(ZONE_ID).toInstant(), ZONE_ID);
+        statsService = new StatsService(readingLogRepository, bookRepository, fixedClock);
+
+        today = FIXED_TODAY;
         firstDayOfMonth = today.withDayOfMonth(1);
         lastDayOfMonth = today.withDayOfMonth(today.lengthOfMonth());
         windowStart = today.minusDays(29);
@@ -140,7 +144,6 @@ class StatsServiceTest {
     @Test
     @DisplayName("Deve calcular a média diária com base apenas nos dias em que houve leitura")
     void shouldCalculateAveragePagesPerDayBasedOnActiveDays() {
-        // 3 dias ativos: 10 + 20 + 30 = 60 páginas / 3 dias ativos = 20.0
         List<ReadingLog> windowLogs = List.of(
                 buildLog(today, 10),
                 buildLog(today.minusDays(1), 20),
@@ -162,7 +165,6 @@ class StatsServiceTest {
     @Test
     @DisplayName("Deve arredondar a média diária para uma casa decimal")
     void shouldRoundAveragePagesPerDayToOneDecimal() {
-        // 2 dias ativos, total 25 páginas -> média 12.5
         List<ReadingLog> windowLogs = List.of(
                 buildLog(today, 15),
                 buildLog(today.minusDays(1), 10)

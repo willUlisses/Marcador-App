@@ -6,27 +6,31 @@ import br.com.will.marcador_api.entities.User;
 import br.com.will.marcador_api.repository.BookRepository;
 import br.com.will.marcador_api.repository.ReadingLogRepository;
 import br.com.will.marcador_api.repository.projections.GenreCountProjection;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Clock;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class StatsService {
 
     private final ReadingLogRepository readingLogRepository;
     private final BookRepository bookRepository;
+    private final Clock clock;
 
-    private static final ZoneId ZONE_ID = ZoneId.of("America/Sao_Paulo");
     private static final int PACE_WINDOW_DAYS = 30;
+
+    public StatsService(ReadingLogRepository readingLogRepository, BookRepository bookRepository, Clock clock) {
+        this.readingLogRepository = readingLogRepository;
+        this.bookRepository = bookRepository;
+        this.clock = clock;
+    }
 
     @Transactional(readOnly = true)
     public StatsResponse getStats(User user) {
-        LocalDate today = LocalDate.now(ZONE_ID);
+        LocalDate today = LocalDate.now(clock);
 
         int pagesThisMonth = getPagesReadThisMonth(user, today);
         String mostReadGenre = getMostReadGenre(user);
@@ -47,7 +51,7 @@ public class StatsService {
 
     private String getMostReadGenre(User user) {
         List<GenreCountProjection> result = bookRepository.findMostReadGenre(user.getId());
-        return result.isEmpty() ? null : result.getFirst().getGenre();
+        return result.isEmpty() ? null : result.get(0).getGenre();
     }
 
     private double getAveragePagesPerDay(User user, LocalDate today) {
