@@ -31,6 +31,7 @@ public class Reflection {
     @Column(length = 100, nullable = false)
     private String title;
 
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY)
