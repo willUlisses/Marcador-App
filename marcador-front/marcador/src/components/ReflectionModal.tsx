@@ -9,6 +9,8 @@ import { reflectionService } from "../services/reflectionService";
 import { bookService } from "../services/bookService";
 import type { UserReflectionResponse } from "../schemas/reflection";
 import type { BookResponse } from "../schemas/book";
+import BookSelect from "./BookSelect";
+
 
 const reflectionSchema = z.object({
     title: z.string().trim().nonempty("O título é obrigatório"),
@@ -160,18 +162,12 @@ const ReflectionModal = ({ isOpen, reflection, onClose, onSuccess }: ReflectionM
                                 {reflection?.bookTitle}
                             </div>
                         ) : (
-                            <select
-                                value={selectedBookId ?? ""}
-                                onChange={(e) => setSelectedBookId(Number(e.target.value) || null)}
-                                className="w-full bg-white border border-stone-400/50 rounded-xl py-3 px-3 text-sm text-stone-800 outline-none focus:border-amber-800 focus:ring-1 focus:ring-amber-800 transition-all"
-                            >
-                                <option value="" disabled>Selecione um livro</option>
-                                {books.map((book) => (
-                                    <option key={book.id} value={book.id}>
-                                        {book.title}
-                                    </option>
-                                ))}
-                            </select>
+                            <BookSelect
+                                books={books}
+                                selectedBookId={selectedBookId}
+                                onChange={setSelectedBookId}
+                                error={formError && !selectedBookId ? formError : undefined}
+                            />
                         )}
                     </div>
 
