@@ -73,7 +73,7 @@ const DeleteReflectionModal = ({
                         type="button"
                         disabled={isDeleting}
                         onClick={onConfirm}
-                        className="flex-1 py-3 bg-red-600 text-white font-semibold rounded-2xl hover:bg-red-700 transition-colors hover:cursor-pointer disabled:opacity-50"
+                        className="flex-1 py-3 bg-red-700 text-white font-semibold rounded-2xl hover:bg-red-700 transition-colors hover:cursor-pointer disabled:opacity-50"
                     >
                         {isDeleting ? "Apagando..." : "Apagar"}
                     </button>
