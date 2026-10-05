@@ -15,7 +15,6 @@ type EditableField = "username" | "email";
 const ProfilePage = () => {
     const { user, logout } = useAuth();
 
-    // Cópia local do usuário exibido, pra refletir edições sem depender do AuthContext expor um setter.
     const [displayUser, setDisplayUser] = useState(user);
 
     const [userStats, setUserStats] = useState<UserStatsResponse>({
@@ -76,13 +75,12 @@ const ProfilePage = () => {
             </header>
 
             <main className="px-4 flex flex-col gap-5">
-                {/* Avatar + username + e-mail + streak */}
                 <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 rounded-full bg-linear-to-br from-[#7A3B2E] to-[#bd7a4e] flex items-center justify-center text-white text-xl font-bold shrink-0">
+                    <div className="w-20 h-20 rounded-full bg-linear-to-br from-[#7A3B2E] to-[#bd7a4e] flex items-center justify-center text-white text-xl font-bold shrink-0">
                         {initials}
                     </div>
                     <div className="flex flex-col gap-0.5">
-                        <span className="font-lora text-xl font-bold text-stone-800">
+                        <span className="font-lora text-2xl font-bold text-stone-800">
                             {displayUser.username}
                         </span>
                         <span className="text-sm text-stone-500">
@@ -96,8 +94,7 @@ const ProfilePage = () => {
                     </div>
                 </div>
 
-                {/* Linha de estatísticas rápidas */}
-                <div className="grid grid-cols-3 border-y border-stone-400/40 py-4">
+                <div className="grid grid-cols-3 border-y border-stone-400/40 py-5">
                     <div className="flex flex-col items-center gap-1 border-r border-stone-400/40">
                         <span className="text-2xl font-extrabold text-stone-800 font-lora">
                             {isLoading ? "—" : userStats.books_read}
@@ -118,8 +115,7 @@ const ProfilePage = () => {
                     </div>
                 </div>
 
-                {/* Sua conta */}
-                <div className="flex flex-col gap-1">
+                <div className="flex flex-col gap-1 mt-2">
                     <h2 className="font-lora text-lg font-bold text-stone-800">
                         Sua conta
                     </h2>
