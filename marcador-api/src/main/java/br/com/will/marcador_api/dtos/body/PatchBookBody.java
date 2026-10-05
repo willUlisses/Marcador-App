@@ -12,7 +12,7 @@ import java.util.Set;
 public record PatchBookBody(
         String title,
 
-        @Min(value = 1, message = "The rating must be greater than or equal 1.")
+        @Min(value = 0, message = "The rating must be greater than or equal 0.")
         @Max(value = 5, message = "The rating must be less than or equal 5.")
         Integer rating,
 
