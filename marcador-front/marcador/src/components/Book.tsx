@@ -49,7 +49,7 @@ const Book = ({ id, title, genres, status, currentPage, totalPages, rating, opin
 
             <h2 className="line-clamp-2 text-[12px] text-white font-lora font-bold text-center tracking-wider leading-tight">{title}</h2>
 
-            {status == "READING" && <div className="text-white text-[11px] rounded-md mt-4 w-full">
+            {status == "READING" && <div className="text-white text-[11px] rounded-md mt-0.5 w-full">
                 <div className="flex justify-between items-center">
                     <span>p. {currentPage} / {totalPages}</span>
                     <span className="text-yellow-400 font-semibold">{progress}%</span>
