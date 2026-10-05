@@ -31,7 +31,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserHeaderStats(user.getId()), HttpStatus.OK);
     }
 
-    @PatchMapping("/update")
+    @PatchMapping
     public ResponseEntity<UserResponse> updateUser(@AuthenticationPrincipal User user,
                                                    @RequestBody PatchUserBody body) {
         return new ResponseEntity<>(userService.updateUser(user, body), HttpStatus.OK);

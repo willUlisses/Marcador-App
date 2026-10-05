@@ -21,6 +21,7 @@ public class EmailService {
 
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
+            helper.setFrom("marcadorApp@email.com");
             helper.setTo(toEmail);
             helper.setSubject("Recuperação de Senha - Marcador API");
 
