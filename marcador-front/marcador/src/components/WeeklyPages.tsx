@@ -37,7 +37,7 @@ const WeeklyPages = ({ weeklyProgressResponse }: WeeklyPagesProps) => {
                 </span>
             </div>
 
-            <div className="grid grid-cols-7 h-36 border-b border-t border-stone-400/50">
+            <div className="grid grid-cols-7 h-36 border-b border-stone-400/50">
                 {safeDays.map((dailyReading, index) => {
                     const heightPercentage = getHeightPercentage(dailyReading.pagesRead);
                     const isToday = dailyReading.dayName === todayName;
@@ -63,7 +63,7 @@ const WeeklyPages = ({ weeklyProgressResponse }: WeeklyPagesProps) => {
 
                                 <div
                                     style={{ height: `${heightPercentage}%` }}
-                                    className={`w-8 rounded-sm transition-all duration-300 ease-out ${
+                                    className={`w-7 rounded-md transition-all duration-300 ease-out ${
                                         isToday ? "bg-[#d88d37]" : "bg-[#683120]"
                                     }`}
                                 />
